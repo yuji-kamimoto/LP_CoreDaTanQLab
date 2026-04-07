@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Noto_Serif_JP } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
+
+import { siteName, siteTagline } from "@/lib/site-config";
 
 import "./globals.css";
 
@@ -14,9 +16,15 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const notoSerifJP = Noto_Serif_JP({
+  variable: "--font-noto-serif-jp",
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+});
+
 export const metadata: Metadata = {
-  title: "塾名（仮） | 学習塾",
-  description: "地域に根ざした学習塾のご案内",
+  title: `${siteName} | 探求学習`,
+  description: siteTagline,
 };
 
 const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
@@ -27,10 +35,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
-      >
+    <html
+      lang="ja"
+      className={`${geistSans.variable} ${geistMono.variable} ${notoSerifJP.variable}`}
+    >
+      <body className="antialiased">
         {children}
         {gaId ? <GoogleAnalytics gaId={gaId} /> : null}
       </body>
