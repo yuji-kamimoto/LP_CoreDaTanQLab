@@ -6,15 +6,19 @@ import { MonthlyScheduleCalendar } from "@/components/MonthlyScheduleCalendar";
 import { NewsMarquee } from "@/components/NewsMarquee";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { SectionDetailLink } from "@/components/SectionDetailLink";
+import { SiteHeader } from "@/components/SiteHeader";
 import { upcomingEvents } from "@/lib/events";
 import { getNewsList } from "@/lib/news";
 import {
   contact,
+  footerInfo,
   heroPhrase,
   siteName,
   siteTagline,
   social,
+  trialApplicationFormUrl,
 } from "@/lib/site-config";
+import { trialCtaGradientClasses } from "@/lib/trial-cta-styles";
 
 export const revalidate = 60;
 
@@ -45,32 +49,13 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen">
-      <header className="sticky top-0 z-50 border-b-2 border-accent/20 bg-background/88 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 md:gap-6 md:px-6">
-          <Link
-            href="/"
-            className="font-heading min-w-0 shrink truncate text-sm font-bold tracking-tight text-foreground sm:text-base md:text-lg"
-          >
-            {siteName}
-          </Link>
-          <Link
-            href="#contact"
-            className="shrink-0 rounded-full bg-accent px-4 py-2.5 text-center text-xs font-bold tracking-wide text-white transition-transform duration-200 hover:bg-accent-hover hover:scale-[1.02] active:scale-[0.98] sm:px-6 sm:text-sm"
-          >
-            体験授業申込
-          </Link>
-        </div>
-      </header>
+      <SiteHeader />
 
       {/* 1. Hero：キラーフレーズのみ（行分割アニメーション） */}
       <section
-        className="relative flex min-h-[calc(100dvh-3.75rem)] flex-col items-center justify-center overflow-hidden px-6 py-12 md:min-h-[calc(100dvh-4rem)] md:py-16"
+        className="relative flex min-h-[calc(100dvh-4.75rem)] flex-col items-center justify-center overflow-hidden px-6 py-12 md:min-h-[calc(100dvh-5rem)] md:py-16"
         aria-label="メインビジュアル"
       >
-        <div className="pointer-events-none absolute inset-0" aria-hidden>
-          <div className="absolute -right-16 top-[10%] h-[min(44vw,24rem)] w-[min(44vw,24rem)] rounded-full border-2 border-accent/12 md:-right-24" />
-          <div className="absolute -bottom-20 -left-28 h-[18rem] w-[18rem] rounded-full border border-accent/10 md:h-[22rem] md:w-[22rem]" />
-        </div>
         <HeroSection phrase={heroPhrase} />
       </section>
 
@@ -170,7 +155,7 @@ export default async function Home() {
         </ul>
         <ScrollReveal delay={0.24}>
           <div className="mt-10 flex flex-wrap gap-4">
-            <SectionDetailLink href="/courses/hirogeru">
+            <SectionDetailLink href="/courses#course-hirogeru">
               広げるコースの詳細を見る
             </SectionDetailLink>
           </div>
@@ -207,7 +192,7 @@ export default async function Home() {
           </ul>
           <ScrollReveal delay={0.24}>
             <div className="mt-10 flex flex-wrap gap-4">
-              <SectionDetailLink href="/courses/fukameru">
+              <SectionDetailLink href="/courses#course-fukameru">
                 深めるコースの詳細を見る
               </SectionDetailLink>
             </div>
@@ -478,94 +463,138 @@ export default async function Home() {
       {/* 9. お問い合わせ */}
       <section
         id="contact"
-        className="border-t-2 border-accent/15 bg-background py-24 md:py-32"
+        className="border-t border-foreground/10 border-b bg-background py-20 md:py-28"
+        aria-labelledby="contact-heading"
       >
         <div className="mx-auto max-w-6xl px-6">
           <ScrollReveal>
-            <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-              お問い合わせ・体験授業のお申し込み
-            </h2>
-            <p className="mt-4 max-w-2xl text-muted md:text-lg">
-              下記の連絡先、または LINE
-              から「体験希望・学年・ご希望曜日」をお送りください。2営業日以内に担当者よりご連絡します。
-            </p>
-          </ScrollReveal>
-          <div className="mt-10 grid gap-10 lg:grid-cols-2">
-            <ScrollReveal delay={0.06}>
-              <div className="rounded-2xl border border-foreground/10 border-l-4 border-l-accent bg-surface p-6 shadow-sm md:p-8">
-                <dl className="space-y-4 text-sm">
-                  <div>
-                    <dt className="font-semibold text-foreground">お電話</dt>
-                    <dd className="mt-1">
-                      <a
-                        href={`tel:${contact.phone.replace(/-/g, "")}`}
-                        className="tabular-nums text-accent hover:underline"
-                      >
-                        {contact.phone}
-                      </a>
-                      <span className="mt-1 block text-xs text-muted">
-                        平日 13:00—20:00／土曜 9:00—17:00
-                      </span>
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="font-semibold text-foreground">メール</dt>
-                    <dd className="mt-1">
-                      <a
-                        href={`mailto:${contact.email}`}
-                        className="text-accent hover:underline"
-                      >
-                        {contact.email}
-                      </a>
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="font-semibold text-foreground">住所</dt>
-                    <dd className="mt-1 text-muted">{contact.address}</dd>
-                  </div>
-                </dl>
+            <div className="mx-auto max-w-3xl text-center">
+              <h2
+                id="contact-heading"
+                className="font-heading text-3xl font-bold tracking-tight text-[#1a2744] md:text-4xl"
+              >
+                お問い合わせ
+              </h2>
+              <div className="mx-auto mt-6 max-w-xl space-y-2 text-sm leading-relaxed text-muted md:text-base">
+                <p>お気軽にお問い合わせください。</p>
+                <p>
+                  見学のご予約・授業料については、こちらからご相談ください。
+                </p>
               </div>
-            </ScrollReveal>
-            <ScrollReveal delay={0.12}>
-              <div className="rounded-2xl border-2 border-foreground/10 bg-surface p-6 md:p-8">
-                <p className="text-sm font-medium text-foreground">
-                  メールでお問い合わせのとき
-                </p>
-                <p className="mt-2 text-xs text-muted">
-                  件名は自動入力されます。本文に次の内容があるとスムーズです。
-                </p>
-                <ul className="mt-5 list-disc space-y-2 pl-5 text-sm text-muted">
-                  <li>お子さまの学年・学校区分（公立／私立など）</li>
-                  <li>ご希望のコース（広げる／深める／未定）</li>
-                  <li>体験希望の曜日・時間帯</li>
-                  <li>現在の学習状況やご不安な点</li>
-                </ul>
+              <div className="mx-auto mt-10 flex w-full max-w-md flex-col items-stretch gap-5">
                 <Link
-                  href={`mailto:${contact.email}?subject=${encodeURIComponent("【探求舎】お問い合わせ")}`}
-                  className="mt-8 flex w-full items-center justify-center rounded-full bg-accent py-3 text-sm font-bold tracking-wide text-white transition-colors hover:bg-accent-hover"
+                  href="/contact"
+                  className="inline-flex min-h-[3.25rem] w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#f07847] via-[#e4571f] to-[#d13d12] px-6 py-4 text-sm font-bold tracking-wide text-white shadow-md transition-[filter] hover:brightness-[1.06]"
                 >
-                  メールアプリを開く
+                  <svg
+                    className="h-5 w-5 shrink-0"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden
+                  >
+                    <rect x="2" y="4" width="20" height="16" rx="2" />
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                  </svg>
+                  お問い合わせ（無料）
+                </Link>
+                <Link
+                  href={trialApplicationFormUrl}
+                  className={`inline-flex min-h-[3.25rem] w-full items-center justify-center rounded-full px-6 py-4 text-sm font-bold tracking-wide ${trialCtaGradientClasses}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  無料体験授業のお申し込み
                 </Link>
               </div>
-            </ScrollReveal>
-          </div>
-          <ScrollReveal delay={0.18}>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <SectionDetailLink href="/contact">
-                お問い合わせページへ
-              </SectionDetailLink>
             </div>
           </ScrollReveal>
         </div>
       </section>
 
-      <footer className="border-t-2 border-accent/25 bg-footer-ink py-14 text-center text-sm text-footer-fg/90">
-        <p className="font-medium text-footer-fg">
-          © {new Date().getFullYear()} {siteName}
-        </p>
-        <p className="mx-auto mt-3 max-w-md text-xs leading-relaxed text-footer-fg/65">
-          {siteTagline}
-        </p>
+      <footer className="border-t-2 border-accent/25 bg-footer-ink py-14 text-sm text-footer-fg/90 md:py-16">
+        <div className="mx-auto grid max-w-6xl gap-10 px-6 md:grid-cols-[1.3fr_1fr_1fr] md:gap-8">
+          <div>
+            <p className="font-heading text-xl font-bold text-footer-fg">
+              {siteName}
+            </p>
+            <p className="mt-4 max-w-md leading-relaxed text-footer-fg/75">
+              {siteTagline}
+            </p>
+            <p className="mt-5 text-xs leading-relaxed text-footer-fg/60">
+              お子さまの学びだけでなく、親御さんが安心して相談できる場であることを大切にしています。
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-xs font-bold tracking-[0.18em] text-footer-fg/70">
+              教室情報
+            </h2>
+            <dl className="mt-4 space-y-3 text-sm leading-relaxed">
+              <div>
+                <dt className="text-footer-fg/55">教室所在地</dt>
+                <dd className="mt-1 text-footer-fg">{contact.address}</dd>
+              </div>
+              <div>
+                <dt className="text-footer-fg/55">営業時間</dt>
+                <dd className="mt-1 text-footer-fg">
+                  {footerInfo.businessHours}
+                </dd>
+              </div>
+              <div>
+                <dt className="text-footer-fg/55">連絡先</dt>
+                <dd className="mt-1">
+                  <a
+                    href={`mailto:${contact.email}`}
+                    className="text-footer-fg hover:text-white"
+                  >
+                    {contact.email}
+                  </a>
+                </dd>
+              </div>
+            </dl>
+          </div>
+
+          <div className="border-t border-footer-fg/15 pt-8 md:border-t-0 md:border-l md:pl-8">
+            <h2 className="text-xs font-bold tracking-[0.18em] text-footer-fg/70">
+              運営会社
+            </h2>
+            <div className="mt-4 space-y-3 leading-relaxed">
+              <p className="font-medium text-footer-fg">{footerInfo.operatorName}</p>
+              <p className="text-footer-fg/75">{footerInfo.operatorAddress}</p>
+              <Link
+                href={footerInfo.operatorWebsite}
+                className="inline-flex items-center rounded-full border border-footer-fg/20 px-4 py-2 text-sm font-semibold text-footer-fg transition-colors hover:border-accent hover:text-white"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                会社HPを見る
+              </Link>
+              <div className="pt-2">
+                <Link
+                  href="https://oneangle.jp/contact.html"
+                  className="inline-flex items-center rounded-full border border-footer-fg/20 px-4 py-2 text-sm font-semibold text-footer-fg transition-colors hover:border-accent hover:text-white"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  会社へのお問い合わせ
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="mx-auto mt-10 max-w-6xl border-t border-footer-fg/10 px-6 pt-5 text-xs text-footer-fg/55 md:mt-12">
+          <p>
+            © {new Date().getFullYear()} {siteName} / Operated by{" "}
+            {footerInfo.operatorName}
+          </p>
+          <p className="mt-2">
+            教室所在地と運営会社所在地は異なります。ご来訪前に最新のご案内をご確認ください。
+          </p>
+        </div>
       </footer>
     </main>
   );

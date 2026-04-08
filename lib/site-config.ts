@@ -10,7 +10,7 @@ export const heroPhrase =
 
 export const contact = {
   phone: "03-0000-0000",
-  email: "info@example.com",
+  email: "contact@oneangle.jp",
   /** 表示用 */
   address: "〒305-0031 茨城県つくば市吾妻3丁目-11-5",
   /** Google マップの埋め込み用 URL（共有 → 地図を埋め込む で取得したものを推奨） */
@@ -19,6 +19,19 @@ export const contact = {
     "https://maps.google.com/maps?q=" +
     encodeURIComponent("茨城県つくば市吾妻3丁目11番5号") +
     "&hl=ja&z=16&output=embed",
+};
+
+/** 無料体験授業のお申し込み（Google フォーム） */
+export const trialApplicationFormUrl =
+  "https://docs.google.com/forms/d/e/1FAIpQLSdRHBFrQiGUg7jTBedF8BDabRq5f0N31OvyLt4zIw6J-1LAZw/viewform?usp=publish-editor";
+
+export const footerInfo = {
+  /** フッター「営業時間」表示用 */
+  businessHours: "平日 16:00〜21:00",
+  operatorName: "株式会社OneAngle",
+  operatorAddress:
+    "〒305-0031 茨城県つくば市吾妻2-5-1 つくば市産業振興センター",
+  operatorWebsite: "https://oneangle.jp/index.html",
 };
 
 export const social = {
