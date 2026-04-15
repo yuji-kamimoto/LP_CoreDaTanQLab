@@ -21,7 +21,7 @@ export function SubpageShell({ title, children }: SubpageShellProps) {
           </Link>
           <Link
             href="/"
-            className="font-heading min-w-0 truncate text-center text-sm font-bold text-foreground"
+            className="font-brand min-w-0 max-w-[min(100%,14rem)] truncate text-center text-xs leading-tight tracking-tight text-foreground sm:max-w-[16rem] sm:text-sm"
           >
             {siteName}
           </Link>

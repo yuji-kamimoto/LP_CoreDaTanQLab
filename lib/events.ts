@@ -1,3 +1,5 @@
+import { siteName } from "./site-config";
+
 export type SiteEvent = {
   id: string;
   title: string;
@@ -28,7 +30,7 @@ export const upcomingEvents: SiteEvent[] = [
     title: "探究発表ミニフェス（保護者見学OK）",
     dateLabel: "4月26日（日）10:00—12:00",
     date: "2026-04-26",
-    place: "探求舎 スタジオ",
+    place: `${siteName} スタジオ`,
   },
   {
     id: "e4",
