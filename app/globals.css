@@ -16,7 +16,7 @@
 }
 
 /* フォントは layout.tsx の next/font とここを対応させる。
-   本文: --font-sans（Geist）／見出し: .font-heading または font-heading（Noto Serif JP）／等幅: font-mono */
+   本文: --font-sans（Geist）／見出し: font-heading（Noto Serif JP）／塾名: font-brand（筑紫A丸ゴシック系・太め）／等幅: font-mono */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -92,6 +92,16 @@ body {
 
 .font-heading {
   font-family: var(--font-heading);
+}
+
+/** 塾名・ヘッダーブランド（筑紫A丸ゴシックの太め。未インストール環境は丸ゴシック系にフォールバック。Web フォントは @font-face で追加可） */
+.font-brand {
+  font-family:
+    "筑紫A丸ゴシック", "筑紫Ａ丸ゴシック", "Tsukushi A Round Gothic",
+    "TsukushiAMaruGothicStd-B", "Hiragino Maru Gothic ProN", "Yu Maru Gothic Pro",
+    "Yu Gothic UI", "Yu Gothic", "Meiryo", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 code,

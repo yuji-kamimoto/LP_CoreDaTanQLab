@@ -76,7 +76,7 @@ export function SiteHeader() {
         <div className="flex w-full items-center justify-between gap-3 px-4 py-2.5 sm:gap-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
           <Link
             href="/"
-            className="font-heading inline-flex h-12 min-w-0 max-w-[min(100%,14rem)] shrink items-center truncate text-[3rem] font-bold leading-none tracking-tight text-foreground sm:h-14 sm:max-w-[18rem] sm:text-[3.5rem]"
+            className="font-brand inline-flex h-12 min-w-0 max-w-[min(100%,20rem)] shrink items-center truncate text-[clamp(1.05rem,4vw,1.7rem)] leading-none tracking-tight text-foreground sm:h-14 sm:max-w-[22rem] sm:text-[clamp(1.15rem,3.2vw,1.85rem)]"
           >
             {siteName}
           </Link>
@@ -85,7 +85,7 @@ export function SiteHeader() {
               href={trialApplicationFormUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className={`inline-flex h-12 items-center justify-center rounded-full px-4 text-center text-[0.7rem] font-bold leading-none tracking-wide transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] sm:h-14 sm:px-5 sm:text-xs md:px-6 md:text-sm ${trialCtaGradientClasses}`}
+              className={`hidden h-12 items-center justify-center rounded-full px-4 text-center text-[0.7rem] font-bold leading-none tracking-wide sm:h-14 sm:px-5 sm:text-xs md:inline-flex md:px-6 md:text-sm ${trialCtaGradientClasses}`}
             >
               無料体験に参加！
             </Link>
@@ -123,7 +123,7 @@ export function SiteHeader() {
           >
             {/* 左：ブランド */}
             <aside className="flex w-full flex-col items-center border-b border-foreground/10 bg-[#f5f0e8] px-6 py-10 text-center md:w-[min(34%,20rem)] md:border-b-0 md:border-r md:py-12">
-              <p className="font-heading text-base font-bold tracking-tight text-foreground md:text-lg">
+              <p className="font-brand max-w-full text-base leading-tight tracking-tight text-foreground md:text-lg">
                 {siteName}
               </p>
               <p className="mt-4 max-w-[16rem] text-xs leading-relaxed text-muted md:mt-5 md:text-sm">
@@ -177,6 +177,18 @@ export function SiteHeader() {
           </div>
         </div>
       ) : null}
+
+      {/* スマホのみ：体験申込を右下固定（md 以上はヘッダー内ボタンのみ） */}
+      <Link
+        href={trialApplicationFormUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`fixed z-[45] inline-flex max-w-[min(100vw-2rem,16rem)] items-center justify-center rounded-full px-4 py-3 text-center text-xs font-bold leading-tight tracking-wide shadow-lg md:hidden ${trialCtaGradientClasses} bottom-[max(1rem,env(safe-area-inset-bottom))] right-[max(1rem,env(safe-area-inset-right))] ${
+          open ? "max-md:hidden" : ""
+        }`}
+      >
+        無料体験に参加！
+      </Link>
     </>
   );
 }

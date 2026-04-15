@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { EventsMarquee } from "@/components/EventsMarquee";
@@ -18,7 +19,10 @@ import {
   social,
   trialApplicationFormUrl,
 } from "@/lib/site-config";
-import { trialCtaGradientClasses } from "@/lib/trial-cta-styles";
+import {
+  contactInquiryCtaClasses,
+  trialCtaGradientClasses,
+} from "@/lib/trial-cta-styles";
 
 export const revalidate = 60;
 
@@ -61,66 +65,52 @@ export default async function Home() {
 
       <p className="sr-only">{siteTagline}</p>
 
-      {/* 2. 塾のコンセプト */}
-      <section
-        id="concept"
-        className="border-t-2 border-accent/15 bg-surface-warm py-24 md:py-32"
-      >
-        <div className="mx-auto max-w-6xl px-6">
-          <ScrollReveal>
-            <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-[2.75rem] lg:leading-[1.12]">
-              私たちのコンセプト
-            </h2>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted md:mt-6 md:text-lg">
-              探求学習は、正解の暗記ではなく「どう考え、どう調べ、どう表現するか」を鍛えます。好奇心を燃料に、学びが自分ごとになる体験を大切にしています。
-            </p>
-          </ScrollReveal>
-          <div className="mt-14 grid gap-8 md:grid-cols-3 md:gap-10">
-            <ScrollReveal delay={0.06}>
-              <article className="h-full rounded-2xl border border-foreground/10 border-l-4 border-l-accent bg-surface p-7 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-xl md:p-8">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">
-                  私たちの想い
+      {/* 2. コンセプト */}
+      <section id="concept" className="bg-accent py-16 md:py-24 lg:py-28">
+        <div className="mx-auto max-w-7xl px-6 md:px-8 lg:px-10 xl:px-12">
+          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-14 xl:gap-16">
+            <ScrollReveal>
+              <div className="text-white">
+                <h2 className="font-heading text-3xl font-bold leading-tight tracking-tight md:text-4xl lg:text-[2.5rem] lg:leading-[1.15]">
+                  コンセプト
+                </h2>
+                <p className="mt-6 text-lg font-semibold leading-relaxed text-white md:text-xl">
+                  {siteTagline}
                 </p>
-                <h3 className="font-heading mt-3 text-lg font-semibold md:text-xl">
-                  親御さんと同じ目線で、長い学びを設計する
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted md:text-base">
-                  成績表の一列だけで子どもを測りません。得意を伸ばし、苦手には「なぜつまずくか」から伴走します。安心して預けられるコミュニケーションを何より重視します。
-                </p>
-              </article>
+                <div className="mt-6 space-y-4 text-sm leading-[1.9] text-white/90 md:text-base">
+                  <p>
+                    探求学習は、正解の暗記ではなく「どう考え、どう調べ、どう表現するか」を鍛えます。好奇心を燃料に、学びが自分ごとになる体験を大切にしています。
+                  </p>
+                  <p>
+                    成績表の一列だけで子どもを測りません。得意を伸ばし、苦手には「なぜつまずくか」から伴走します。小学高学年から高校生まで、入塾時の状態より学び方と自己肯定感が前に進むことを目指します。発表・振り返り・フィードバックを重ね、自分で課題を立て、仲間と学べる力を育みます。
+                  </p>
+                </div>
+              </div>
             </ScrollReveal>
-            <ScrollReveal delay={0.12}>
-              <article className="h-full rounded-2xl border border-foreground/10 border-l-4 border-l-accent bg-surface p-7 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-xl md:p-8">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">
-                  対象
-                </p>
-                <h3 className="font-heading mt-3 text-lg font-semibold md:text-xl">
-                  小学高学年〜高校生
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted md:text-base">
-                  「もっと知りたい」が止まらない子から、「勉強が好きになれない」子まで。入塾時の状態より、学び方と自己肯定感が前に進むことをゴールにします。
-                </p>
-              </article>
-            </ScrollReveal>
-            <ScrollReveal delay={0.18}>
-              <article className="h-full rounded-2xl border border-foreground/10 border-l-4 border-l-accent bg-surface p-7 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-xl md:p-8">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">
-                  育てたい人間像
-                </p>
-                <h3 className="font-heading mt-3 text-lg font-semibold md:text-xl">
-                  自分で課題を立て、仲間と学べる人
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted md:text-base">
-                  発表・振り返り・フィードバックを繰り返し、思考を言語化できる力と、他者の考えを尊重する姿勢を育みます。受験や資格にもつながる「根っこの力」です。
-                </p>
-              </article>
+            <ScrollReveal delay={0.08}>
+              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-3xl shadow-xl ring-2 ring-white/20">
+                <Image
+                  src="/concept-section.jpg"
+                  alt={`${siteName}の学びのイメージ`}
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 1024px) 52vw, 100vw"
+                  priority={false}
+                />
+              </div>
             </ScrollReveal>
           </div>
-          <ScrollReveal delay={0.22}>
-            <div className="mt-12 flex flex-wrap gap-4">
-              <SectionDetailLink href="/concept">
+          <ScrollReveal delay={0.14}>
+            <div className="mt-10 flex justify-center lg:mt-14">
+              <Link
+                href="/concept"
+                className="inline-flex items-center gap-2 rounded-full border-2 border-white px-7 py-3.5 text-sm font-bold tracking-wide text-white transition-colors duration-200 hover:bg-white/15"
+              >
                 コンセプトの詳細を見る
-              </SectionDetailLink>
+                <span aria-hidden className="text-base leading-none">
+                  →
+                </span>
+              </Link>
             </div>
           </ScrollReveal>
         </div>
@@ -256,8 +246,9 @@ export default async function Home() {
       {/* 6. 料金 */}
       <section
         id="pricing"
-        className="mx-auto max-w-6xl bg-surface-warm px-6 py-24 md:py-32"
+        className="bg-[#eef6fc] px-6 py-24 md:py-32"
       >
+        <div className="mx-auto max-w-6xl">
         <ScrollReveal>
           <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground md:text-4xl">
             料金について
@@ -267,88 +258,104 @@ export default async function Home() {
           </p>
         </ScrollReveal>
         <ScrollReveal delay={0.08}>
-          <div className="mt-10 overflow-x-auto rounded-2xl border-2 border-accent/20 bg-surface shadow-md">
-            <table className="w-full min-w-[36rem] border-collapse text-left text-sm">
-              <caption className="sr-only">コース別料金表</caption>
-              <thead>
-                <tr className="border-b border-white/15 bg-accent text-white">
-                  <th
-                    scope="col"
-                    className="px-4 py-5 font-heading text-xs font-bold uppercase tracking-widest text-white md:px-6"
-                  >
-                    項目
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-4 py-5 font-heading text-xs font-bold uppercase tracking-widest text-white md:px-6"
-                  >
-                    広げるコース
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-4 py-5 font-heading text-xs font-bold uppercase tracking-widest text-white md:px-6"
-                  >
-                    深めるコース
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="text-foreground/90">
-                <tr className="border-b border-foreground/10">
-                  <th
-                    scope="row"
-                    className="px-4 py-4 font-medium text-foreground md:px-6"
-                  >
+          <div className="mt-10 grid gap-6 md:grid-cols-2 md:gap-8">
+            <article
+              className="overflow-hidden rounded-2xl bg-white shadow-md"
+              aria-labelledby="pricing-card-hirogeru-title"
+            >
+              <h3
+                id="pricing-card-hirogeru-title"
+                className="bg-accent px-4 py-4 text-center font-heading text-base font-bold text-white md:py-4 md:text-lg"
+              >
+                広げるコース
+              </h3>
+              <dl className="divide-y divide-dashed divide-accent/30 px-5 py-1 text-sm md:text-base">
+                <div className="grid grid-cols-[minmax(0,7.5rem)_1fr] gap-x-4 gap-y-1 py-4 md:grid-cols-[minmax(0,9rem)_1fr]">
+                  <dt className="text-right font-bold text-accent">
                     入会金（初回のみ）
-                  </th>
-                  <td className="px-4 py-4 tabular-nums md:px-6">22,000円</td>
-                  <td className="px-4 py-4 tabular-nums md:px-6">22,000円</td>
-                </tr>
-                <tr className="border-b border-foreground/10">
-                  <th
-                    scope="row"
-                    className="px-4 py-4 font-medium text-foreground md:px-6"
-                  >
+                  </dt>
+                  <dd className="text-left tabular-nums text-foreground">
+                    22,000円（税込）
+                  </dd>
+                </div>
+                <div className="grid grid-cols-[minmax(0,7.5rem)_1fr] gap-x-4 gap-y-1 py-4 md:grid-cols-[minmax(0,9rem)_1fr]">
+                  <dt className="text-right font-bold text-accent">
                     月額（標準プラン）
-                  </th>
-                  <td className="px-4 py-4 tabular-nums md:px-6">
-                    18,700円
+                  </dt>
+                  <dd className="text-left tabular-nums text-foreground">
+                    18,700円（税込）
                     <span className="mt-1 block text-xs font-normal text-muted">
                       週1コマ＋振り返り
                     </span>
-                  </td>
-                  <td className="px-4 py-4 tabular-nums md:px-6">
-                    28,600円
+                  </dd>
+                </div>
+                <div className="grid grid-cols-[minmax(0,7.5rem)_1fr] gap-x-4 gap-y-1 py-4 md:grid-cols-[minmax(0,9rem)_1fr]">
+                  <dt className="text-right font-bold text-accent">
+                    体験授業
+                  </dt>
+                  <dd className="text-left tabular-nums text-foreground">
+                    3,300円（税込）
+                  </dd>
+                </div>
+                <div className="grid grid-cols-[minmax(0,7.5rem)_1fr] gap-x-4 gap-y-1 py-4 md:grid-cols-[minmax(0,9rem)_1fr]">
+                  <dt className="text-right font-bold text-accent">
+                    教材・プロジェクト費
+                  </dt>
+                  <dd className="text-left text-sm text-muted md:text-base">
+                    実費（年2回目安でご案内）
+                  </dd>
+                </div>
+              </dl>
+            </article>
+
+            <article
+              className="overflow-hidden rounded-2xl bg-white shadow-md"
+              aria-labelledby="pricing-card-fukameru-title"
+            >
+              <h3
+                id="pricing-card-fukameru-title"
+                className="bg-[#2563eb] px-4 py-4 text-center font-heading text-base font-bold text-white md:py-4 md:text-lg"
+              >
+                深めるコース
+              </h3>
+              <dl className="divide-y divide-dashed divide-[#2563eb]/35 px-5 py-1 text-sm md:text-base">
+                <div className="grid grid-cols-[minmax(0,7.5rem)_1fr] gap-x-4 gap-y-1 py-4 md:grid-cols-[minmax(0,9rem)_1fr]">
+                  <dt className="text-right font-bold text-[#1d4ed8]">
+                    入会金（初回のみ）
+                  </dt>
+                  <dd className="text-left tabular-nums text-foreground">
+                    22,000円（税込）
+                  </dd>
+                </div>
+                <div className="grid grid-cols-[minmax(0,7.5rem)_1fr] gap-x-4 gap-y-1 py-4 md:grid-cols-[minmax(0,9rem)_1fr]">
+                  <dt className="text-right font-bold text-[#1d4ed8]">
+                    月額（標準プラン）
+                  </dt>
+                  <dd className="text-left tabular-nums text-foreground">
+                    28,600円（税込）
                     <span className="mt-1 block text-xs font-normal text-muted">
                       週1個別＋課題添削
                     </span>
-                  </td>
-                </tr>
-                <tr className="border-b border-foreground/10">
-                  <th
-                    scope="row"
-                    className="px-4 py-4 font-medium text-foreground md:px-6"
-                  >
+                  </dd>
+                </div>
+                <div className="grid grid-cols-[minmax(0,7.5rem)_1fr] gap-x-4 gap-y-1 py-4 md:grid-cols-[minmax(0,9rem)_1fr]">
+                  <dt className="text-right font-bold text-[#1d4ed8]">
                     体験授業
-                  </th>
-                  <td className="px-4 py-4 tabular-nums md:px-6">3,300円</td>
-                  <td className="px-4 py-4 tabular-nums md:px-6">3,300円</td>
-                </tr>
-                <tr>
-                  <th
-                    scope="row"
-                    className="px-4 py-4 font-medium text-foreground md:px-6"
-                  >
+                  </dt>
+                  <dd className="text-left tabular-nums text-foreground">
+                    3,300円（税込）
+                  </dd>
+                </div>
+                <div className="grid grid-cols-[minmax(0,7.5rem)_1fr] gap-x-4 gap-y-1 py-4 md:grid-cols-[minmax(0,9rem)_1fr]">
+                  <dt className="text-right font-bold text-[#1d4ed8]">
                     教材・プロジェクト費
-                  </th>
-                  <td className="px-4 py-4 text-muted md:px-6">
-                    実費（年2回目安でご案内）
-                  </td>
-                  <td className="px-4 py-4 text-muted md:px-6">
+                  </dt>
+                  <dd className="text-left text-sm text-muted md:text-base">
                     実費（使用資料に応じて）
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                  </dd>
+                </div>
+              </dl>
+            </article>
           </div>
         </ScrollReveal>
         <ScrollReveal delay={0.14}>
@@ -358,6 +365,7 @@ export default async function Home() {
             </SectionDetailLink>
           </div>
         </ScrollReveal>
+        </div>
       </section>
 
       {/* 7. アクセス */}
@@ -412,48 +420,111 @@ export default async function Home() {
         </ScrollReveal>
         <div className="mt-12 grid gap-8 md:grid-cols-2">
           <ScrollReveal delay={0.06}>
-            <div className="flex h-full flex-col justify-between rounded-2xl bg-line-brand p-8 text-white shadow-md transition-transform duration-300 hover:-translate-y-0.5">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-white/90">
-                  LINE
-                </p>
-                <h3 className="font-heading mt-3 text-xl font-semibold md:text-2xl">
-                  友だち追加で、体験空き状況をいち早くお知らせ
-                </h3>
-                <p className="mt-4 text-sm leading-relaxed text-white/90">
-                  質問や日程調整もトークで気軽にどうぞ。自動応答と担当が連携して返信します。
-                </p>
+            <div className="flex h-full min-h-[18rem] flex-col rounded-2xl bg-white p-8 shadow-md transition-transform duration-300 hover:-translate-y-0.5">
+              <div className="rounded-xl border-2 border-line-brand px-4 py-4">
+                <div className="flex items-center justify-center gap-3">
+                  <svg
+                    className="h-7 w-7 shrink-0 text-line-brand"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden
+                  >
+                    <rect x="6" y="2" width="12" height="20" rx="2" />
+                    <path d="M12 18h.01" />
+                  </svg>
+                  <span className="text-center text-lg font-black tracking-tight text-line-brand md:text-xl">
+                    LINE公式アカウント
+                  </span>
+                </div>
               </div>
+              <p className="mt-6 text-center text-sm font-extrabold leading-relaxed text-foreground/85 md:text-base">
+                イベント情報やお知らせはこちらから！
+              </p>
               <Link
                 href={social.lineUrl}
-                className="mt-8 inline-flex w-fit items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-bold tracking-wide text-line-brand transition-transform hover:scale-[1.02]"
+                className="mt-auto flex w-full items-center gap-2 rounded-full bg-line-brand px-2 py-3.5 text-sm font-black tracking-wide text-white shadow-sm transition-all duration-200 hover:scale-[1.02] hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-brand md:gap-3 md:py-4 md:text-base"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                LINE公式を開く
+                <span className="h-10 w-10 shrink-0" aria-hidden />
+                <span className="min-w-0 flex-1 text-center">
+                  友だち追加はこちら
+                </span>
+                <span
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white"
+                  aria-hidden
+                >
+                  <svg
+                    className="h-5 w-5 text-line-brand"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="m9 18 6-6-6-6" />
+                  </svg>
+                </span>
               </Link>
             </div>
           </ScrollReveal>
           <ScrollReveal delay={0.12}>
-            <div className="flex h-full flex-col justify-between rounded-2xl border-2 border-instagram-brand bg-surface p-8 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-instagram-brand">
-                  Instagram
-                </p>
-                <h3 className="font-heading mt-3 text-xl font-semibold md:text-2xl">
-                  写真とリールで、「探究の空気感」を共有
-                </h3>
-                <p className="mt-4 text-sm leading-relaxed text-muted">
-                  プロジェクトの過程や教室の雰囲気がわかるコンテンツを中心に更新しています。
-                </p>
+            <div className="flex h-full min-h-[18rem] flex-col rounded-2xl bg-white p-8 shadow-md transition-transform duration-300 hover:-translate-y-0.5">
+              <div className="rounded-xl border-2 border-instagram-brand px-4 py-4">
+                <div className="flex items-center justify-center gap-3">
+                  <svg
+                    className="h-7 w-7 shrink-0 text-instagram-brand"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden
+                  >
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                    <circle cx="12" cy="12" r="4" />
+                    <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+                  </svg>
+                  <span className="text-center text-lg font-black tracking-tight text-instagram-brand md:text-xl">
+                    Instagram
+                  </span>
+                </div>
               </div>
+              <p className="mt-6 text-center text-sm font-extrabold leading-relaxed text-foreground/85 md:text-base">
+                写真とリールで、教室の様子をお届けしています。
+              </p>
               <Link
                 href={social.instagramUrl}
-                className="mt-8 inline-flex w-fit items-center justify-center rounded-full bg-instagram-brand px-6 py-3 text-sm font-bold tracking-wide text-white transition-transform hover:scale-[1.02]"
+                className="mt-auto flex w-full items-center gap-2 rounded-full bg-instagram-brand px-2 py-3.5 text-sm font-black tracking-wide text-white shadow-sm transition-all duration-200 hover:scale-[1.02] hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-instagram-brand md:gap-3 md:py-4 md:text-base"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Instagramを見る
+                <span className="h-10 w-10 shrink-0" aria-hidden />
+                <span className="min-w-0 flex-1 text-center">
+                  Instagramを見る
+                </span>
+                <span
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white"
+                  aria-hidden
+                >
+                  <svg
+                    className="h-5 w-5 text-instagram-brand"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="m9 18 6-6-6-6" />
+                  </svg>
+                </span>
               </Link>
             </div>
           </ScrollReveal>
@@ -481,10 +552,10 @@ export default async function Home() {
                   見学のご予約・授業料については、こちらからご相談ください。
                 </p>
               </div>
-              <div className="mx-auto mt-10 flex w-full max-w-md flex-col items-stretch gap-5">
+              <div className="mx-auto mt-10 flex w-full max-w-md flex-col items-stretch gap-5 md:mt-12 md:max-w-xl md:gap-6 lg:max-w-2xl">
                 <Link
                   href="/contact"
-                  className="inline-flex min-h-[3.25rem] w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#f07847] via-[#e4571f] to-[#d13d12] px-6 py-4 text-sm font-bold tracking-wide text-white shadow-md transition-[filter] hover:brightness-[1.06]"
+                  className={`inline-flex min-h-[4.25rem] w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-black tracking-wide md:min-h-[4.5rem] md:gap-3 md:py-4 md:text-base ${contactInquiryCtaClasses}`}
                 >
                   <svg
                     className="h-5 w-5 shrink-0"
@@ -503,7 +574,7 @@ export default async function Home() {
                 </Link>
                 <Link
                   href={trialApplicationFormUrl}
-                  className={`inline-flex min-h-[3.25rem] w-full items-center justify-center rounded-full px-6 py-4 text-sm font-bold tracking-wide ${trialCtaGradientClasses}`}
+                  className={`inline-flex min-h-[4.25rem] w-full items-center justify-center rounded-full px-6 py-3.5 text-sm font-black tracking-wide md:min-h-[4.5rem] md:py-4 md:text-base ${trialCtaGradientClasses}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -518,7 +589,7 @@ export default async function Home() {
       <footer className="border-t-2 border-accent/25 bg-footer-ink py-14 text-sm text-footer-fg/90 md:py-16">
         <div className="mx-auto grid max-w-6xl gap-10 px-6 md:grid-cols-[1.3fr_1fr_1fr] md:gap-8">
           <div>
-            <p className="font-heading text-xl font-bold text-footer-fg">
+            <p className="font-brand text-xl text-footer-fg">
               {siteName}
             </p>
             <p className="mt-4 max-w-md leading-relaxed text-footer-fg/75">
@@ -529,7 +600,7 @@ export default async function Home() {
             </p>
           </div>
 
-          <div>
+          <div className="md:pt-8">
             <h2 className="text-xs font-bold tracking-[0.18em] text-footer-fg/70">
               教室情報
             </h2>
@@ -541,7 +612,9 @@ export default async function Home() {
               <div>
                 <dt className="text-footer-fg/55">営業時間</dt>
                 <dd className="mt-1 text-footer-fg">
-                  {footerInfo.businessHours}
+                  {footerInfo.businessHoursWeekday}
+                  <br />
+                  {footerInfo.businessHoursWeekend}
                 </dd>
               </div>
               <div>

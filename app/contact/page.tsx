@@ -39,7 +39,7 @@ export default function ContactPage() {
           </Link>
           <Link
             href="/"
-            className="font-heading min-w-0 truncate text-center text-xs font-bold text-foreground sm:text-sm"
+            className="font-brand min-w-0 max-w-[min(100%,11rem)] truncate text-center text-[0.65rem] leading-tight tracking-tight text-foreground sm:max-w-[13rem] sm:text-xs"
           >
             {siteName}
           </Link>
@@ -47,7 +47,7 @@ export default function ContactPage() {
             href={trialApplicationFormUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className={`shrink-0 rounded-full px-3 py-2 text-center text-[0.65rem] font-bold leading-snug tracking-wide sm:px-5 sm:py-2.5 sm:text-xs md:text-sm ${trialCtaGradientClasses} transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]`}
+            className={`shrink-0 rounded-full px-3 py-2 text-center text-[0.65rem] font-bold leading-snug tracking-wide sm:px-5 sm:py-2.5 sm:text-xs md:text-sm ${trialCtaGradientClasses}`}
           >
             無料体験に参加！
           </Link>
@@ -78,7 +78,11 @@ export default function ContactPage() {
                 >
                   {contact.phone}
                 </a>
-                <span className="mt-1 block text-xs">{footerInfo.businessHours}</span>
+                <span className="mt-1 block text-xs leading-relaxed">
+                  {footerInfo.businessHoursWeekday}
+                  <br />
+                  {footerInfo.businessHoursWeekend}
+                </span>
               </dd>
             </div>
             <div>
