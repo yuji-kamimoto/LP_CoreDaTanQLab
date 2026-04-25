@@ -14,14 +14,14 @@ export type SiteEvent = {
 export const upcomingEvents: SiteEvent[] = [
   {
     id: "e1",
-    title: "保護者説明会｜探求学習って何が変わる？",
+    title: "保護者説明会｜探究学習って何が変わる？",
     dateLabel: "4月12日（土）14:00—",
     date: "2026-04-12",
     place: "オンライン／会場併用",
   },
   {
     id: "e2",
-    title: "体験授業ウィーク（広げる／深める 両コース）",
+    title: "体験授業ウィーク（0→1／スキル／探究）",
     dateLabel: "4月14日（月）〜18日（金）",
     date: "2026-04-14",
   },

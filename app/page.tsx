@@ -1,17 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { EventsMarquee } from "@/components/EventsMarquee";
 import { HeroSection } from "@/components/HeroSection";
-import { MonthlyScheduleCalendar } from "@/components/MonthlyScheduleCalendar";
-import { NewsMarquee } from "@/components/NewsMarquee";
+import { BrandLogoText } from "@/components/BrandLogoText";
+import { HomeCourseSection } from "@/components/HomeCourseSection";
+import { NewsCardGrid } from "@/components/NewsCardGrid";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { SectionDetailLink } from "@/components/SectionDetailLink";
 import { SiteHeader } from "@/components/SiteHeader";
-import { upcomingEvents } from "@/lib/events";
 import { getNewsList } from "@/lib/news";
 import {
+  colocatedFreeSchool,
   contact,
+  coreDaNamingJa,
   footerInfo,
   heroPhrase,
   siteName,
@@ -19,6 +20,8 @@ import {
   social,
   trialApplicationFormUrl,
 } from "@/lib/site-config";
+import { courses, courseTheme } from "@/lib/courses-data";
+import { formatDate } from "@/lib/format-date";
 import {
   contactInquiryCtaClasses,
   trialCtaGradientClasses,
@@ -26,63 +29,61 @@ import {
 
 export const revalidate = 60;
 
-function formatNewsDate(iso: string) {
-  try {
-    return new Intl.DateTimeFormat("ja-JP", {
-      dateStyle: "medium",
-      timeZone: "Asia/Tokyo",
-    }).format(new Date(iso));
-  } catch {
-    return iso;
-  }
-}
-
 export default async function Home() {
   const newsData = await getNewsList(12);
   const latestNews = newsData?.contents ?? [];
-  const newsMarqueeItems = latestNews.map((item) => ({
+  const newsCardItems = latestNews.map((item) => ({
     id: item.id,
     title: item.title,
-    publishedAt: item.publishedAt,
-    dateLabel: formatNewsDate(item.publishedAt),
+    dateLabel: formatDate(item.publishedAt),
+    eyecatchUrl: item.eyecatch?.url,
   }));
-
-  const cal = new Date();
-  const calYear = cal.getFullYear();
-  const calMonth = cal.getMonth();
 
   return (
     <main className="min-h-screen">
       <SiteHeader />
 
-      {/* 1. Hero：キラーフレーズのみ（行分割アニメーション） */}
+      {/* 1. Hero：キラーフレーズ（PC のみ背景イラスト） */}
       <section
         className="relative flex min-h-[calc(100dvh-4.75rem)] flex-col items-center justify-center overflow-hidden px-6 py-12 md:min-h-[calc(100dvh-5rem)] md:py-16"
         aria-label="メインビジュアル"
       >
-        <HeroSection phrase={heroPhrase} />
+        <div
+          className="pointer-events-none absolute inset-0 z-0 hidden lg:block"
+          aria-hidden
+        >
+          <Image
+            src="/hero-main-visual-desktop.png"
+            alt=""
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+            priority
+          />
+        </div>
+        <div className="relative z-[1] w-full">
+          <HeroSection phrase={heroPhrase} />
+        </div>
       </section>
 
       <p className="sr-only">{siteTagline}</p>
 
-      {/* 2. コンセプト */}
+      {/* 2. ラボについて */}
       <section id="concept" className="bg-accent py-16 md:py-24 lg:py-28">
         <div className="mx-auto max-w-7xl px-6 md:px-8 lg:px-10 xl:px-12">
           <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-14 xl:gap-16">
             <ScrollReveal>
               <div className="text-white">
-                <h2 className="font-heading text-3xl font-bold leading-tight tracking-tight md:text-4xl lg:text-[2.5rem] lg:leading-[1.15]">
-                  コンセプト
+                <h2 className="text-center font-heading text-3xl font-black leading-tight tracking-tight md:text-4xl lg:text-left lg:text-[2.5rem] lg:leading-[1.15]">
+                  ラボについて
                 </h2>
-                <p className="mt-6 text-lg font-semibold leading-relaxed text-white md:text-xl">
+                <p className="mt-6 text-center text-lg font-semibold leading-relaxed text-white md:text-xl lg:text-left">
                   {siteTagline}
                 </p>
-                <div className="mt-6 space-y-4 text-sm leading-[1.9] text-white/90 md:text-base">
+                <div className="mt-6 text-sm leading-[1.9] text-white/90 md:text-base">
                   <p>
-                    探求学習は、正解の暗記ではなく「どう考え、どう調べ、どう表現するか」を鍛えます。好奇心を燃料に、学びが自分ごとになる体験を大切にしています。
-                  </p>
-                  <p>
-                    成績表の一列だけで子どもを測りません。得意を伸ばし、苦手には「なぜつまずくか」から伴走します。小学高学年から高校生まで、入塾時の状態より学び方と自己肯定感が前に進むことを目指します。発表・振り返り・フィードバックを重ね、自分で課題を立て、仲間と学べる力を育みます。
+                    {coreDaNamingJa}
+                    探究ラボでは、この想いのもと、正解の丸暗記ではなく「どう考え、どう調べ、どう表現するか」を重ねる探究学習を中心にしています。授業の中で好奇心が動き出す機会を何度も設計し、子どもたちの熱意に言葉と時間で応え、小さな行動の積み重ねが、やがて自分の軸――「核」になるように伴走します。
                   </p>
                 </div>
               </div>
@@ -90,7 +91,7 @@ export default async function Home() {
             <ScrollReveal delay={0.08}>
               <div className="relative aspect-[16/10] w-full overflow-hidden rounded-3xl shadow-xl ring-2 ring-white/20">
                 <Image
-                  src="/concept-section.jpg"
+                  src="/Lab_Preview_Image.jpg"
                   alt={`${siteName}の学びのイメージ`}
                   fill
                   className="object-cover"
@@ -104,9 +105,9 @@ export default async function Home() {
             <div className="mt-10 flex justify-center lg:mt-14">
               <Link
                 href="/concept"
-                className="inline-flex items-center gap-2 rounded-full border-2 border-white px-7 py-3.5 text-sm font-bold tracking-wide text-white transition-colors duration-200 hover:bg-white/15"
+                className="inline-flex min-h-[4.5rem] items-center justify-center gap-2 rounded-full border-2 border-white px-8 py-4 text-base font-bold tracking-wide text-white shadow-md shadow-black/10 transition-all duration-200 ease-out hover:scale-[1.03] hover:border-white hover:bg-white hover:text-accent hover:shadow-xl hover:shadow-black/25 active:scale-[0.98] md:px-10 md:text-lg"
               >
-                コンセプトの詳細を見る
+                ラボについての詳細を見る
                 <span aria-hidden className="text-base leading-none">
                   →
                 </span>
@@ -116,250 +117,163 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 3a. 広げるコース */}
+      {/* 3. コース紹介 */}
       <section
-        id="course-hirogeru"
-        className="mx-auto max-w-6xl px-6 py-24 md:py-32"
-      >
-        <ScrollReveal>
-          <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-[2.75rem] lg:leading-[1.12]">
-            広げるコース
-          </h2>
-          <p className="mt-5 max-w-3xl text-base leading-relaxed text-muted md:mt-6 md:text-lg">
-            世界・社会・自然への興味を広げ、複数の教科を横断してテーマ探究します。観察、インタビュー、資料読解、簡単なレポート作成までを一つのプロジェクトとして体験できます。
-          </p>
-        </ScrollReveal>
-        <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {[
-            "週1〜2回の探究スタジオ＋振り返り面談",
-            "少人数（最大8名）で声を出しやすい環境",
-            "発表会・ギャラリーウォークで成果を共有",
-            "保護者向けレポートで学びの可視化",
-          ].map((text, i) => (
-            <ScrollReveal key={text} delay={i * 0.05}>
-              <li className="rounded-2xl border-2 border-foreground/8 bg-surface px-5 py-4 text-sm leading-relaxed shadow-sm transition-all duration-300 hover:border-accent/35 hover:shadow-md">
-                {text}
-              </li>
-            </ScrollReveal>
-          ))}
-        </ul>
-        <ScrollReveal delay={0.24}>
-          <div className="mt-10 flex flex-wrap gap-4">
-            <SectionDetailLink href="/courses#course-hirogeru">
-              広げるコースの詳細を見る
-            </SectionDetailLink>
-          </div>
-        </ScrollReveal>
-      </section>
-
-      {/* 3b. 深めるコース */}
-      <section
-        id="course-fukameru"
-        className="border-t-2 border-accent/15 bg-surface-warm py-24 md:py-32"
+        id="courses"
+        className="border-t-2 border-accent/15 bg-surface py-20 md:py-28"
       >
         <div className="mx-auto max-w-6xl px-6">
           <ScrollReveal>
-            <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-[2.75rem] lg:leading-[1.12]">
-              深めるコース
-            </h2>
-            <p className="mt-5 max-w-3xl text-base leading-relaxed text-muted md:mt-6 md:text-lg">
-              得意分野や進路関心を起点に、調査計画から仮説検証、まとめまでを深掘りします。論理の組み立て・根拠の評価・文章表現を、高校・大学で必要なレベルまで引き上げます。
-            </p>
+            <div className="text-center">
+              <h2 className="font-heading text-3xl font-black tracking-tight text-foreground md:text-4xl lg:text-[2.75rem] lg:leading-[1.12]">
+                コースの紹介
+              </h2>
+              <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-muted md:text-lg">
+                コースは「0→1」「スキル」「探究」の3つ。子どもたちの状況に合わせてお選びいただけます。
+              </p>
+            </div>
           </ScrollReveal>
-          <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              "個別ミーティングでテーマと進捗を週次管理",
-              "論述・小論・研究計画の型を反復練習",
-              "図書とオンライン文献のリテラシー指導",
-              "希望に応じたコンテスト・課外発表の伴走",
-            ].map((text, i) => (
-              <ScrollReveal key={text} delay={i * 0.05}>
-                <li className="rounded-2xl border-2 border-foreground/8 bg-surface px-5 py-4 text-sm leading-relaxed shadow-sm transition-all duration-300 hover:border-accent/35 hover:shadow-md">
-                  {text}
-                </li>
-            </ScrollReveal>
-          ))}
-          </ul>
-          <ScrollReveal delay={0.24}>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <SectionDetailLink href="/courses#course-fukameru">
-                深めるコースの詳細を見る
-              </SectionDetailLink>
+
+          <div className="mt-10 space-y-8">
+            <HomeCourseSection
+              course={courses[0]}
+              imageSrc="/0-1_Course_Image.jpg"
+              imagePosition="right"
+            />
+            <HomeCourseSection
+              course={courses[1]}
+              imageSrc="/Skill_Course_Image.jpg"
+              imagePosition="left"
+            />
+            <HomeCourseSection
+              course={courses[2]}
+              imageSrc="/TanQ_Course_Image.jpg"
+              imagePosition="right"
+            />
+          </div>
+
+          <ScrollReveal delay={0.1}>
+            <div className="mt-10 flex flex-wrap justify-center gap-4">
+              <SectionDetailLink href="/courses">コースの詳細ページを見る</SectionDetailLink>
             </div>
           </ScrollReveal>
         </div>
       </section>
 
-      {/* 4. ニュース（横スクロール） */}
+      {/* 4. ニュース */}
       <section
         id="news"
         className="border-t-2 border-accent/15 bg-background py-20 md:py-28"
       >
-        <div className="mx-auto mb-10 flex max-w-6xl flex-wrap items-end justify-between gap-6 px-6">
-          <ScrollReveal>
-            <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-              ニュース
-            </h2>
-            <p className="mt-3 text-sm text-muted md:text-base">
-              お知らせが横に流れます（ホバーで一時停止）。
-            </p>
-          </ScrollReveal>
-          <ScrollReveal delay={0.06}>
-            <SectionDetailLink href="/news">
-              お知らせ一覧・詳細を見る
-            </SectionDetailLink>
-          </ScrollReveal>
-        </div>
-        <NewsMarquee items={newsMarqueeItems} />
-      </section>
-
-      {/* 5. イベント & カレンダー */}
-      <section
-        id="events"
-        className="border-t-2 border-accent/15 bg-surface py-20 md:py-28"
-      >
-        <div className="mx-auto mb-10 max-w-6xl px-6">
-          <ScrollReveal>
-            <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-              イベント情報
-            </h2>
-            <p className="mt-3 text-sm text-muted md:text-base">
-              直近のご案内です。詳細はお問い合わせください。
-            </p>
-          </ScrollReveal>
-        </div>
-        <EventsMarquee events={upcomingEvents} />
-        <div className="mx-auto mt-14 max-w-6xl px-6">
-          <ScrollReveal>
-            <MonthlyScheduleCalendar year={calYear} monthIndex0={calMonth} />
-          </ScrollReveal>
-          <ScrollReveal delay={0.08}>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <SectionDetailLink href="/events">
-                イベント・スケジュールの詳細を見る
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
+            <ScrollReveal>
+              <h2 className="font-heading text-3xl font-black tracking-tight text-foreground md:text-4xl">
+                最新のニュース
+              </h2>
+              <p className="mt-3 text-sm text-muted md:text-base">
+                教室からの最新情報をお届けします。
+              </p>
+            </ScrollReveal>
+            <ScrollReveal delay={0.06}>
+              <SectionDetailLink href="/news">
+                お知らせ一覧を見る
               </SectionDetailLink>
-            </div>
-          </ScrollReveal>
+            </ScrollReveal>
+          </div>
+          <NewsCardGrid items={newsCardItems} />
         </div>
       </section>
 
-      {/* 6. 料金 */}
+      {/* 5. 料金 */}
       <section
         id="pricing"
         className="bg-[#eef6fc] px-6 py-24 md:py-32"
       >
         <div className="mx-auto max-w-6xl">
         <ScrollReveal>
-          <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-            料金について
-          </h2>
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted md:text-base">
-            税込表示の例です。兄弟割引・年間一括などはお問い合わせ時にご案内します。
-          </p>
+          <div className="text-center">
+            <h2 className="font-heading text-3xl font-black tracking-tight text-foreground md:text-4xl">
+              料金について
+            </h2>
+            <div className="mt-6 grid w-full grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
+              <div className="w-fit max-w-full justify-self-center overflow-hidden rounded-2xl border border-foreground/10 bg-white shadow-md dark:border-foreground/20 dark:bg-surface lg:col-span-3">
+                <dl
+                  className={`divide-y divide-dashed ${courseTheme.zeroOne.divideClass} w-max max-w-full px-5 py-1 text-sm md:text-base`}
+                >
+                  <div className="py-6">
+                    <div className="flex max-w-full flex-row flex-wrap items-center gap-x-2 md:gap-x-3">
+                      <dt
+                        className={`shrink-0 font-bold ${courseTheme.zeroOne.dtStrong}`}
+                      >
+                        入会金
+                      </dt>
+                      <dd className="flex min-w-0 flex-row flex-nowrap items-baseline gap-x-2 text-sm leading-relaxed md:gap-x-3 md:text-base">
+                        <span className="tabular-nums font-medium text-foreground md:text-lg">
+                          11,000円（税込）
+                        </span>
+                        <span className="text-muted">
+                          初回のご入会時に一度だけお支払いいただく費用です。
+                        </span>
+                      </dd>
+                    </div>
+                  </div>
+                </dl>
+              </div>
+            </div>
+          </div>
         </ScrollReveal>
         <ScrollReveal delay={0.08}>
-          <div className="mt-10 grid gap-6 md:grid-cols-2 md:gap-8">
-            <article
-              className="overflow-hidden rounded-2xl bg-white shadow-md"
-              aria-labelledby="pricing-card-hirogeru-title"
-            >
-              <h3
-                id="pricing-card-hirogeru-title"
-                className="bg-accent px-4 py-4 text-center font-heading text-base font-bold text-white md:py-4 md:text-lg"
-              >
-                広げるコース
-              </h3>
-              <dl className="divide-y divide-dashed divide-accent/30 px-5 py-1 text-sm md:text-base">
-                <div className="grid grid-cols-[minmax(0,7.5rem)_1fr] gap-x-4 gap-y-1 py-4 md:grid-cols-[minmax(0,9rem)_1fr]">
-                  <dt className="text-right font-bold text-accent">
-                    入会金（初回のみ）
-                  </dt>
-                  <dd className="text-left tabular-nums text-foreground">
-                    22,000円（税込）
-                  </dd>
-                </div>
-                <div className="grid grid-cols-[minmax(0,7.5rem)_1fr] gap-x-4 gap-y-1 py-4 md:grid-cols-[minmax(0,9rem)_1fr]">
-                  <dt className="text-right font-bold text-accent">
-                    月額（標準プラン）
-                  </dt>
-                  <dd className="text-left tabular-nums text-foreground">
-                    18,700円（税込）
-                    <span className="mt-1 block text-xs font-normal text-muted">
-                      週1コマ＋振り返り
-                    </span>
-                  </dd>
-                </div>
-                <div className="grid grid-cols-[minmax(0,7.5rem)_1fr] gap-x-4 gap-y-1 py-4 md:grid-cols-[minmax(0,9rem)_1fr]">
-                  <dt className="text-right font-bold text-accent">
-                    体験授業
-                  </dt>
-                  <dd className="text-left tabular-nums text-foreground">
-                    3,300円（税込）
-                  </dd>
-                </div>
-                <div className="grid grid-cols-[minmax(0,7.5rem)_1fr] gap-x-4 gap-y-1 py-4 md:grid-cols-[minmax(0,9rem)_1fr]">
-                  <dt className="text-right font-bold text-accent">
-                    教材・プロジェクト費
-                  </dt>
-                  <dd className="text-left text-sm text-muted md:text-base">
-                    実費（年2回目安でご案内）
-                  </dd>
-                </div>
-              </dl>
-            </article>
-
-            <article
-              className="overflow-hidden rounded-2xl bg-white shadow-md"
-              aria-labelledby="pricing-card-fukameru-title"
-            >
-              <h3
-                id="pricing-card-fukameru-title"
-                className="bg-[#2563eb] px-4 py-4 text-center font-heading text-base font-bold text-white md:py-4 md:text-lg"
-              >
-                深めるコース
-              </h3>
-              <dl className="divide-y divide-dashed divide-[#2563eb]/35 px-5 py-1 text-sm md:text-base">
-                <div className="grid grid-cols-[minmax(0,7.5rem)_1fr] gap-x-4 gap-y-1 py-4 md:grid-cols-[minmax(0,9rem)_1fr]">
-                  <dt className="text-right font-bold text-[#1d4ed8]">
-                    入会金（初回のみ）
-                  </dt>
-                  <dd className="text-left tabular-nums text-foreground">
-                    22,000円（税込）
-                  </dd>
-                </div>
-                <div className="grid grid-cols-[minmax(0,7.5rem)_1fr] gap-x-4 gap-y-1 py-4 md:grid-cols-[minmax(0,9rem)_1fr]">
-                  <dt className="text-right font-bold text-[#1d4ed8]">
-                    月額（標準プラン）
-                  </dt>
-                  <dd className="text-left tabular-nums text-foreground">
-                    28,600円（税込）
-                    <span className="mt-1 block text-xs font-normal text-muted">
-                      週1個別＋課題添削
-                    </span>
-                  </dd>
-                </div>
-                <div className="grid grid-cols-[minmax(0,7.5rem)_1fr] gap-x-4 gap-y-1 py-4 md:grid-cols-[minmax(0,9rem)_1fr]">
-                  <dt className="text-right font-bold text-[#1d4ed8]">
-                    体験授業
-                  </dt>
-                  <dd className="text-left tabular-nums text-foreground">
-                    3,300円（税込）
-                  </dd>
-                </div>
-                <div className="grid grid-cols-[minmax(0,7.5rem)_1fr] gap-x-4 gap-y-1 py-4 md:grid-cols-[minmax(0,9rem)_1fr]">
-                  <dt className="text-right font-bold text-[#1d4ed8]">
-                    教材・プロジェクト費
-                  </dt>
-                  <dd className="text-left text-sm text-muted md:text-base">
-                    実費（使用資料に応じて）
-                  </dd>
-                </div>
-              </dl>
-            </article>
+          <div className="mt-10 grid gap-6 lg:grid-cols-3 lg:gap-8">
+            {courses.map((c) => {
+              const th = courseTheme[c.key];
+              return (
+                <article
+                  key={c.id}
+                  className="overflow-hidden rounded-2xl bg-white shadow-md dark:bg-surface"
+                  aria-labelledby={`pricing-${c.id}`}
+                >
+                  <h3
+                    id={`pricing-${c.id}`}
+                    className={`${th.headerBg} ${th.headerText} px-4 py-4 text-center font-heading text-xl font-bold md:py-4 md:text-2xl`}
+                  >
+                    {c.name}
+                  </h3>
+                  <dl
+                    className={`divide-y divide-dashed ${th.divideClass} px-5 py-1 text-sm md:text-base`}
+                  >
+                    <div className="grid grid-cols-[minmax(0,7.5rem)_1fr] gap-x-4 gap-y-1 py-4 md:grid-cols-[minmax(0,9rem)_1fr]">
+                      <dt className={`text-center font-bold ${th.dtStrong}`}>
+                        月謝
+                      </dt>
+                      <dd className="text-left tabular-nums text-foreground">
+                        {c.monthlyPrice}
+                      </dd>
+                    </div>
+                    <div className="grid grid-cols-[minmax(0,7.5rem)_1fr] gap-x-4 gap-y-1 py-4 md:grid-cols-[minmax(0,9rem)_1fr]">
+                      <dt className={`text-center font-bold ${th.dtStrong}`}>
+                        レッスン
+                      </dt>
+                      <dd className="text-left text-foreground">
+                        {c.monthlySessions}
+                      </dd>
+                    </div>
+                    <div className="grid grid-cols-[minmax(0,7.5rem)_1fr] gap-x-4 gap-y-1 py-4 md:grid-cols-[minmax(0,9rem)_1fr]">
+                      <dt className={`text-center font-bold ${th.dtStrong}`}>
+                        備考
+                      </dt>
+                      <dd className="text-left text-sm text-muted md:text-base">
+                        {c.themeNote}
+                      </dd>
+                    </div>
+                  </dl>
+                </article>
+              );
+            })}
           </div>
         </ScrollReveal>
         <ScrollReveal delay={0.14}>
-          <div className="mt-10 flex flex-wrap gap-4">
+          <div className="mt-10 flex flex-wrap justify-center gap-4">
             <SectionDetailLink href="/pricing">
               料金・割引の詳細を見る
             </SectionDetailLink>
@@ -375,13 +289,27 @@ export default async function Home() {
       >
         <div className="mx-auto max-w-6xl px-6">
           <ScrollReveal>
-            <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+            <div className="text-center">
+            <h2 className="font-heading text-3xl font-black tracking-tight text-foreground md:text-4xl">
               アクセス
             </h2>
-            <p className="mt-4 max-w-xl text-muted">{contact.address}</p>
-            <p className="mt-2 text-sm text-muted">
-              最寄り駅から徒歩8分。バス停「〇〇」前下車すぐ（開業に合わせて更新してください）。
+            <p className="mx-auto mt-4 max-w-xl text-muted">{contact.address}</p>
+            <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+              {siteName}は、
+              <a
+                href={colocatedFreeSchool.websiteUrl}
+                className="font-semibold text-accent underline-offset-2 hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {colocatedFreeSchool.name}
+              </a>
+              と
+              <strong className="font-medium text-foreground">
+                同一の施設で開講しています。
+              </strong>
             </p>
+            </div>
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
             <div className="mt-10 overflow-hidden rounded-2xl border-2 border-accent/25 bg-surface shadow-lg shadow-accent/5">
@@ -396,7 +324,7 @@ export default async function Home() {
             </div>
           </ScrollReveal>
           <ScrollReveal delay={0.14}>
-            <div className="mt-10 flex flex-wrap gap-4">
+            <div className="mt-10 flex flex-wrap justify-center gap-4">
               <SectionDetailLink href="/access">
                 アクセスの詳細を見る
               </SectionDetailLink>
@@ -411,12 +339,14 @@ export default async function Home() {
         className="mx-auto max-w-6xl bg-surface-warm px-6 py-24 md:py-32"
       >
         <ScrollReveal>
-          <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-            公式アカウント
-          </h2>
-          <p className="mt-4 max-w-2xl text-muted md:text-lg">
-            日常の学びの様子やイベント速報をお届けしています。
-          </p>
+          <div className="text-center">
+            <h2 className="font-heading text-3xl font-black tracking-tight text-foreground md:text-4xl">
+              公式アカウント
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-muted md:text-lg">
+              日常の学びの様子やイベント速報をお届けしています。
+            </p>
+          </div>
         </ScrollReveal>
         <div className="mt-12 grid gap-8 md:grid-cols-2">
           <ScrollReveal delay={0.06}>
@@ -542,14 +472,16 @@ export default async function Home() {
             <div className="mx-auto max-w-3xl text-center">
               <h2
                 id="contact-heading"
-                className="font-heading text-3xl font-bold tracking-tight text-[#1a2744] md:text-4xl"
+                className="font-heading text-3xl font-black tracking-tight text-[#1a2744] md:text-4xl"
               >
                 お問い合わせ
               </h2>
               <div className="mx-auto mt-6 max-w-xl space-y-2 text-sm leading-relaxed text-muted md:text-base">
-                <p>お気軽にお問い合わせください。</p>
                 <p>
-                  見学のご予約・授業料については、こちらからご相談ください。
+                  学びのご相談・体験のお申し込みは、お気軽にどうぞ。教室では、子どもの好奇心と行動を大切にし、保護者の方のご不安やご希望にも丁寧に応える場づくりを心がけています。
+                </p>
+                <p>
+                  見学のご予約・授業料についても、こちらからご相談ください。
                 </p>
               </div>
               <div className="mx-auto mt-10 flex w-full max-w-md flex-col items-stretch gap-5 md:mt-12 md:max-w-xl md:gap-6 lg:max-w-2xl">
@@ -589,14 +521,14 @@ export default async function Home() {
       <footer className="border-t-2 border-accent/25 bg-footer-ink py-14 text-sm text-footer-fg/90 md:py-16">
         <div className="mx-auto grid max-w-6xl gap-10 px-6 md:grid-cols-[1.3fr_1fr_1fr] md:gap-8">
           <div>
-            <p className="font-brand text-xl text-footer-fg">
-              {siteName}
-            </p>
+            <div className="max-w-2xl">
+              <BrandLogoText className="block text-left text-xl leading-tight text-footer-fg sm:text-2xl md:text-3xl lg:text-[1.85rem]" />
+            </div>
             <p className="mt-4 max-w-md leading-relaxed text-footer-fg/75">
               {siteTagline}
             </p>
             <p className="mt-5 text-xs leading-relaxed text-footer-fg/60">
-              お子さまの学びだけでなく、親御さんが安心して相談できる場であることを大切にしています。
+              名前に込めた想いに沿うよう、学びの機会と応答を大切にしつつ、親御さんが安心して相談できる場であることも重ねています。
             </p>
           </div>
 
@@ -615,6 +547,9 @@ export default async function Home() {
                   {footerInfo.businessHoursWeekday}
                   <br />
                   {footerInfo.businessHoursWeekend}
+                  <span className="mt-2 block text-xs leading-relaxed text-footer-fg/70">
+                    {footerInfo.businessHoursNote}
+                  </span>
                 </dd>
               </div>
               <div>
@@ -622,7 +557,7 @@ export default async function Home() {
                 <dd className="mt-1">
                   <a
                     href={`mailto:${contact.email}`}
-                    className="text-footer-fg hover:text-white"
+                    className="text-footer-fg hover:text-accent"
                   >
                     {contact.email}
                   </a>
@@ -640,7 +575,7 @@ export default async function Home() {
               <p className="text-footer-fg/75">{footerInfo.operatorAddress}</p>
               <Link
                 href={footerInfo.operatorWebsite}
-                className="inline-flex items-center rounded-full border border-footer-fg/20 px-4 py-2 text-sm font-semibold text-footer-fg transition-colors hover:border-accent hover:text-white"
+                className="inline-flex items-center rounded-full border border-footer-fg/20 px-4 py-2 text-sm font-semibold text-footer-fg transition-colors hover:border-accent hover:text-accent"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -649,7 +584,7 @@ export default async function Home() {
               <div className="pt-2">
                 <Link
                   href="https://oneangle.jp/contact.html"
-                  className="inline-flex items-center rounded-full border border-footer-fg/20 px-4 py-2 text-sm font-semibold text-footer-fg transition-colors hover:border-accent hover:text-white"
+                  className="inline-flex items-center rounded-full border border-footer-fg/20 px-4 py-2 text-sm font-semibold text-footer-fg transition-colors hover:border-accent hover:text-accent"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

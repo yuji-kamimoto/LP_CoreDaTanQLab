@@ -1,19 +1,9 @@
 import Link from "next/link";
 
+import { formatDate } from "@/lib/format-date";
 import { getNewsList } from "@/lib/news";
 
 export const revalidate = 60;
-
-function formatDate(iso: string) {
-  try {
-    return new Intl.DateTimeFormat("ja-JP", {
-      dateStyle: "medium",
-      timeZone: "Asia/Tokyo",
-    }).format(new Date(iso));
-  } catch {
-    return iso;
-  }
-}
 
 export default async function NewsIndexPage() {
   const data = await getNewsList(50);
