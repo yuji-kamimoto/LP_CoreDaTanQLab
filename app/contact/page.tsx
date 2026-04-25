@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { BrandLogoText } from "@/components/BrandLogoText";
 import { ContactForm } from "@/components/ContactForm";
 import {
   contact,
@@ -13,8 +14,7 @@ import { trialCtaGradientClasses } from "@/lib/trial-cta-styles";
 
 export const metadata: Metadata = {
   title: `お問い合わせ | ${siteName}`,
-  description:
-    "メールフォームからお問い合わせいただけます。見学・授業料などもこちらからどうぞ。",
+  description: `${siteName}へのお問い合わせ。見学・体験・授業料のご相談はメールフォームから。`,
 };
 
 export default function ContactPage() {
@@ -39,9 +39,10 @@ export default function ContactPage() {
           </Link>
           <Link
             href="/"
-            className="font-brand min-w-0 max-w-[min(100%,11rem)] truncate text-center text-[0.65rem] leading-tight tracking-tight text-foreground sm:max-w-[13rem] sm:text-xs"
+            aria-label={siteName}
+            className="flex min-w-0 shrink justify-center py-0.5"
           >
-            {siteName}
+            <BrandLogoText className="max-w-[min(78vw,16rem)] text-center text-[clamp(0.75rem,2.6vw,1.1rem)] leading-tight text-foreground sm:max-w-[19rem] md:max-w-[22rem]" />
           </Link>
           <Link
             href={trialApplicationFormUrl}
@@ -59,7 +60,7 @@ export default function ContactPage() {
           お問い合わせ
         </h1>
         <p className="mx-auto mt-4 max-w-md text-center text-sm leading-relaxed text-muted">
-          ご質問や見学のご希望など、フォームよりお送りください。2営業日以内にご返信いたします。
+          ご質問や見学のご希望など、フォームよりお送りください。お子さまの好奇心や熱意、ご家庭のご希望に丁寧に応えられるよう、2営業日以内にご返信いたします。
         </p>
 
         <div className="mt-10">
@@ -82,6 +83,9 @@ export default function ContactPage() {
                   {footerInfo.businessHoursWeekday}
                   <br />
                   {footerInfo.businessHoursWeekend}
+                  <span className="mt-2 block text-muted">
+                    {footerInfo.businessHoursNote}
+                  </span>
                 </span>
               </dd>
             </div>

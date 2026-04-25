@@ -18,7 +18,7 @@ export type ScheduleEventDef = {
 export const SCHEDULE_EVENT_DEFS: Record<ScheduleEventKind, ScheduleEventDef> = {
   "spring-school": {
     kind: "spring-school",
-    label: "探求スプリングスクール",
+    label: "探究スプリングスクール",
     bg: "#2ECC71",
   },
   "trial-elem": {

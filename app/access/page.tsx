@@ -1,17 +1,33 @@
 import type { Metadata } from "next";
 
 import { SubpageShell } from "@/components/SubpageShell";
-import { contact, siteName } from "@/lib/site-config";
+import { colocatedFreeSchool, contact, siteName } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: `アクセス | ${siteName}`,
-  description: "教室への行き方・駐車場・バリアフリー情報です。",
+  description: `${siteName}は TSUKUBA 学びの杜学園と同一施設です。行き方・駐車場など。`,
 };
 
 export default function AccessPage() {
   return (
     <SubpageShell title="アクセス（詳細）">
       <p className="text-foreground">{contact.address}</p>
+      <p className="mt-4 text-sm leading-relaxed text-muted md:text-base">
+        {siteName}は、
+        <a
+          href={colocatedFreeSchool.websiteUrl}
+          className="font-semibold text-accent underline-offset-2 hover:underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {colocatedFreeSchool.name}
+        </a>
+        と
+        <strong className="font-medium text-foreground">
+          同一の施設・同じ住所
+        </strong>
+        で活動しています。学びの杜学園の公式サイトに記載の所在地と同じ場所です。
+      </p>
       <h2 className="font-heading text-lg font-semibold text-foreground md:text-xl">
         交通手段
       </h2>

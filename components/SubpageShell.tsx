@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { BrandLogoText } from "@/components/BrandLogoText";
 import { siteName } from "@/lib/site-config";
 
 type SubpageShellProps = {
@@ -21,9 +22,10 @@ export function SubpageShell({ title, children }: SubpageShellProps) {
           </Link>
           <Link
             href="/"
-            className="font-brand min-w-0 max-w-[min(100%,14rem)] truncate text-center text-xs leading-tight tracking-tight text-foreground sm:max-w-[16rem] sm:text-sm"
+            aria-label={siteName}
+            className="flex min-w-0 shrink justify-center py-0.5"
           >
-            {siteName}
+            <BrandLogoText className="max-w-[min(90vw,19rem)] text-center text-[clamp(0.8rem,2.8vw,1.2rem)] leading-tight text-foreground sm:max-w-[22rem] md:max-w-[26rem]" />
           </Link>
           <span className="w-16 shrink-0 sm:w-20" aria-hidden />
         </div>

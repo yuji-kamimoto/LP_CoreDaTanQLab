@@ -14,7 +14,7 @@ export function SectionDetailLink({
   return (
     <Link
       href={href}
-      className={`group inline-flex items-center justify-center gap-2 rounded-full border-2 border-accent/40 bg-surface px-6 py-3 text-sm font-bold tracking-wide text-foreground transition-all duration-300 hover:border-accent hover:bg-accent hover:text-white ${className}`}
+      className={`group inline-flex min-h-[4.5rem] items-center justify-center gap-2 rounded-full border-2 border-accent/40 bg-surface px-8 py-4 text-base font-bold tracking-wide text-foreground transition-all duration-300 hover:border-accent hover:bg-accent hover:text-white md:px-10 md:text-lg ${className}`}
     >
       <span>{children}</span>
       <span

@@ -7,7 +7,7 @@ import { siteName } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: `イベント・スケジュール | ${siteName}`,
-  description: "イベント情報と月間の授業スケジュール例です。",
+  description: `${siteName}のイベントと月間スケジュール例。学びの機会としてのご案内です。`,
 };
 
 export default function EventsPage() {
@@ -18,8 +18,8 @@ export default function EventsPage() {
   return (
     <SubpageShell title="イベント情報とスケジュール">
       <p>
-        下記は開業準備中のご案内例です。日程・会場は確定次第、ニュースおよび LINE
-        でお知らせします。見学や保護者説明会への参加をご希望の方は、お問い合わせページからご連絡ください。
+        イベントや説明会は、好奇心に新しい機会を与え、保護者の方のご不安にも応える場としてご用意する予定です。下記は開業準備中のご案内例です。日程・会場は確定次第、ニュースおよび
+        LINE でお知らせします。見学や保護者説明会への参加をご希望の方は、お問い合わせページからご連絡ください。
       </p>
       <h2 className="font-heading text-lg font-semibold text-foreground md:text-xl">
         直近のイベント

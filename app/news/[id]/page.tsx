@@ -2,22 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { formatDate } from "@/lib/format-date";
 import { getNewsDetail } from "@/lib/news";
 
 export const revalidate = 60;
 
 type Props = { params: Promise<{ id: string }> };
-
-function formatDate(iso: string) {
-  try {
-    return new Intl.DateTimeFormat("ja-JP", {
-      dateStyle: "medium",
-      timeZone: "Asia/Tokyo",
-    }).format(new Date(iso));
-  } catch {
-    return iso;
-  }
-}
 
 export default async function NewsDetailPage({ params }: Props) {
   const { id } = await params;

@@ -1,1 +1,1 @@
-# CoreDa! 探求ラボ（公式サイト / juku-hp）
+# CoreDa! 探究ラボ（公式サイト / juku-hp）

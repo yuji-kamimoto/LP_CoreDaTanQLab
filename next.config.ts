@@ -5,12 +5,12 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/courses/hirogeru",
-        destination: "/courses",
+        destination: "/courses#course-0-1",
         permanent: true,
       },
       {
         source: "/courses/fukameru",
-        destination: "/courses",
+        destination: "/courses#course-inquiry",
         permanent: true,
       },
     ];

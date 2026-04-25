@@ -1,3 +1,17 @@
+import { courses } from "./courses-data";
+
+/** デスクトップヘッダー用（ハンバーガー非表示時） */
+export const headerPrimaryNav: {
+  label: string;
+  href: string;
+  external?: boolean;
+}[] = [
+  { label: "ラボについて", href: "/concept" },
+  { label: "コース", href: "/courses" },
+  { label: "ニュース/イベント", href: "/news" },
+  { label: "料金とスケジュール", href: "/pricing" },
+];
+
 /** ハンバーガーメニュー用 */
 export type MegaMenuBlock = {
   title: string;
@@ -11,15 +25,15 @@ export function getMegaMenuBlocks(
 ): MegaMenuBlock[] {
   return [
     {
-      title: "コンセプト",
-      links: [{ label: "コンセプト詳細", href: "/concept" }],
+      title: "ラボについて",
+      links: [{ label: "詳細を見る", href: "/concept" }],
     },
     {
       title: "コース",
-      links: [
-        { label: "広げる（詳細）", href: "/courses#course-hirogeru" },
-        { label: "深める（詳細）", href: "/courses#course-fukameru" },
-      ],
+      links: courses.map((c) => ({
+        label: c.navLabel,
+        href: `/courses#${c.id}`,
+      })),
     },
     {
       title: "ニュース",
