@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { SiteHeader } from "@/components/SiteHeader";
+
 import { formatDate } from "@/lib/format-date";
 import { getNewsDetail } from "@/lib/news";
 
@@ -18,7 +20,9 @@ export default async function NewsDetailPage({ params }: Props) {
   }
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-16">
+    <div className="min-h-screen bg-background">
+      <SiteHeader />
+      <main className="mx-auto max-w-3xl px-6 py-16">
       <p className="mb-8">
         <Link className="text-sm text-foreground/70 hover:text-accent" href="/news">
           ← お知らせ一覧
@@ -60,6 +64,7 @@ export default async function NewsDetailPage({ params }: Props) {
           <p className="mt-10 text-foreground/60">本文がありません。</p>
         )}
       </article>
-    </main>
+      </main>
+    </div>
   );
 }

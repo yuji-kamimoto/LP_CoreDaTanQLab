@@ -8,7 +8,7 @@ export const headerPrimaryNav: {
 }[] = [
   { label: "ラボについて", href: "/concept" },
   { label: "コース", href: "/courses" },
-  { label: "ニュース/イベント", href: "/news" },
+  { label: "ニュース", href: "/news" },
   { label: "料金とスケジュール", href: "/pricing" },
 ];
 
