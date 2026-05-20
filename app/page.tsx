@@ -6,6 +6,7 @@ import { HomeContactCtaSection } from "@/components/HomeContactCtaSection";
 import { HomeCourseSection } from "@/components/HomeCourseSection";
 import { HomePricingSection } from "@/components/HomePricingSection";
 import { HomeSnsSection } from "@/components/HomeSnsSection";
+import { HomeJsonLd } from "@/components/JsonLd";
 import { NewsCardGrid } from "@/components/NewsCardGrid";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { SectionDetailLink } from "@/components/SectionDetailLink";
@@ -37,6 +38,7 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen">
+      <HomeJsonLd />
       <SiteHeader />
 
       {/* 1. Hero：キラーフレーズ（PC のみ背景イラスト） */}
@@ -227,13 +229,6 @@ export default async function Home() {
                 referrerPolicy="no-referrer-when-downgrade"
                 allowFullScreen
               />
-            </div>
-          </ScrollReveal>
-          <ScrollReveal delay={0.14}>
-            <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <SectionDetailLink href="/access">
-                アクセスの詳細を見る
-              </SectionDetailLink>
             </div>
           </ScrollReveal>
         </div>

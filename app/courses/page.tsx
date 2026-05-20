@@ -10,8 +10,15 @@ import {
 } from "@/lib/courses-data";
 
 export const metadata: Metadata = {
-  title: `コース | ${siteName}`,
+  title: "コース",
   description: `${siteName}の3コース（0→1・スキル・探究）。好奇心に機会、熱意に応え、行動で核を育てます。`,
+  alternates: { canonical: "/courses" },
+  openGraph: {
+    title: `コース | ${siteName}`,
+    description: `${siteName}の3コース（0→1・スキル・探究）。好奇心に機会、熱意に応え、行動で核を育てます。`,
+    url: "/courses",
+    type: "website",
+  },
 };
 
 export default function CoursesDetailPage() {

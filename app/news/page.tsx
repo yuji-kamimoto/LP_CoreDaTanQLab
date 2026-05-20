@@ -1,10 +1,24 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { SiteHeader } from "@/components/SiteHeader";
 import { formatDate } from "@/lib/format-date";
 import { getNewsList } from "@/lib/news";
+import { siteName } from "@/lib/site-config";
 
 export const revalidate = 60;
+
+export const metadata: Metadata = {
+  title: "お知らせ",
+  description: `${siteName}からのお知らせ・教室の最新情報の一覧ページです。`,
+  alternates: { canonical: "/news" },
+  openGraph: {
+    title: `お知らせ | ${siteName}`,
+    description: `${siteName}からのお知らせ・教室の最新情報の一覧ページです。`,
+    url: "/news",
+    type: "website",
+  },
+};
 
 export default async function NewsIndexPage() {
   const data = await getNewsList(50);

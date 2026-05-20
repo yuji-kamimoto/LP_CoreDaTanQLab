@@ -4,8 +4,15 @@ import { SubpageShell } from "@/components/SubpageShell";
 import { coreDaNamingJa, siteMetaDescription, siteName } from "@/lib/site-config";
 
 export const metadata: Metadata = {
-  title: `ラボについて | ${siteName}`,
+  title: "ラボについて",
   description: siteMetaDescription,
+  alternates: { canonical: "/concept" },
+  openGraph: {
+    title: `ラボについて | ${siteName}`,
+    description: siteMetaDescription,
+    url: "/concept",
+    type: "website",
+  },
 };
 
 export default function ConceptPage() {

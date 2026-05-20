@@ -3,18 +3,19 @@ import Link from "next/link";
 
 import { BrandLogoText } from "@/components/BrandLogoText";
 import { ContactForm } from "@/components/ContactForm";
-import {
-  contact,
-  footerInfo,
-  siteName,
-  social,
-  trialApplicationFormUrl,
-} from "@/lib/site-config";
+import { siteName, trialApplicationFormUrl } from "@/lib/site-config";
 import { trialCtaGradientClasses } from "@/lib/trial-cta-styles";
 
 export const metadata: Metadata = {
-  title: `お問い合わせ | ${siteName}`,
+  title: "お問い合わせ",
   description: `${siteName}へのお問い合わせ。見学・体験・授業料のご相談はメールフォームから。`,
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    title: `お問い合わせ | ${siteName}`,
+    description: `${siteName}へのお問い合わせ。見学・体験・授業料のご相談はメールフォームから。`,
+    url: "/contact",
+    type: "website",
+  },
 };
 
 export default function ContactPage() {
@@ -65,64 +66,6 @@ export default function ContactPage() {
 
         <div className="mt-10">
           <ContactForm />
-        </div>
-
-        <div className="mt-12 rounded-2xl border border-foreground/10 bg-surface/90 px-5 py-5 text-sm backdrop-blur-sm md:px-6">
-          <p className="font-semibold text-foreground">その他の連絡先</p>
-          <dl className="mt-4 space-y-3 text-muted">
-            <div>
-              <dt className="font-medium text-foreground">お電話</dt>
-              <dd className="mt-0.5">
-                <a
-                  href={`tel:${contact.phone.replace(/-/g, "")}`}
-                  className="tabular-nums text-accent hover:underline"
-                >
-                  {contact.phone}
-                </a>
-                <span className="mt-1 block text-xs leading-relaxed">
-                  {footerInfo.businessHoursWeekday}
-                  <br />
-                  {footerInfo.businessHoursWeekend}
-                  <span className="mt-2 block text-muted">
-                    {footerInfo.businessHoursNote}
-                  </span>
-                </span>
-              </dd>
-            </div>
-            <div>
-              <dt className="font-medium text-foreground">メール（直接）</dt>
-              <dd className="mt-0.5">
-                <a
-                  href={`mailto:${contact.email}`}
-                  className="text-accent hover:underline"
-                >
-                  {contact.email}
-                </a>
-              </dd>
-            </div>
-          </dl>
-          <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm font-medium">
-            <li>
-              <Link
-                href={social.lineUrl}
-                className="text-line-brand hover:underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                LINE公式
-              </Link>
-            </li>
-            <li>
-              <Link
-                href={social.instagramUrl}
-                className="text-instagram-brand hover:underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Instagram
-              </Link>
-            </li>
-          </ul>
         </div>
       </main>
     </div>

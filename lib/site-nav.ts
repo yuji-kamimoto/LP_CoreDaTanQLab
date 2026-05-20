@@ -48,10 +48,6 @@ export function getMegaMenuBlocks(
       links: [{ label: "詳細", href: "/pricing" }],
     },
     {
-      title: "アクセス",
-      links: [{ label: "詳細", href: "/access" }],
-    },
-    {
       title: "公式アカウント",
       links: [
         { label: "LINE", href: lineUrl, external: true },
