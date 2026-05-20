@@ -1,6 +1,52 @@
 /** 差し替え用のサイト固有情報（CMS 化する場合はここを読み替え） */
 export const siteName = "CoreDa! 探究ラボ";
 
+/** 検索結果での表記ゆれ対策（CoreDa!／コアダ／コーレダ等） */
+export const siteAlternateNames = [
+  "CoreDa!探究ラボ",
+  "コアダ探究ラボ",
+  "コーレダ探究ラボ",
+  "つくば 探究ラボ",
+  "つくば 探究学習",
+  "CoreDa",
+] as const;
+
+/** 本番公開URL（末尾スラッシュなし）。環境変数で上書き可能 */
+export const siteUrl = (
+  process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://school.oneangle.jp"
+).replace(/\/$/, "");
+
+/**
+ * OGP 用デフォルト画像（public/ 配下に配置）
+ * 専用の 1200x630 画像 `/og-image.png` を用意できればベスト。
+ * 用意できるまでは既存のラボ紹介画像をフォールバックとして利用する。
+ */
+export const siteOgImage = {
+  path: "/Lab_Preview_Image.jpg",
+  width: 1200,
+  height: 630,
+  alt: "CoreDa! 探究ラボ — 好奇心を行動へ、君の核を育てる探究学習教室",
+} as const;
+
+/** SEO 用キーワード（meta keywords は Google 非対応だが Bing 他のため保持） */
+export const siteKeywords = [
+  "CoreDa!",
+  "CoreDa! 探究ラボ",
+  "コアダ",
+  "コーレダ",
+  "探究ラボ",
+  "探究学習",
+  "つくば 塾",
+  "つくば 探究学習",
+  "つくば 学習塾",
+  "茨城 探究",
+  "つくば市 吾妻 塾",
+  "プログラミング教室",
+  "小学生 中学生 高校生",
+  "TSUKUBA 学びの杜学園",
+  "OneAngle",
+] as const;
+
 export const siteTagline =
   "【好奇心】を【行動】へ、それがいつか君の【核】になる";
 
@@ -15,8 +61,7 @@ export const coreDaNamingJa =
 export const siteMetaDescription = `${siteTagline} ${coreDaNamingJa}`;
 
 /** Hero 中央のキラーフレーズのみ表示 */
-export const heroPhrase =
-  "これだっ！ってものを見つけよう！\nそして、とことん突き詰めよう！";
+export const heroPhrase = "好き✖️できる で突き抜けろ！";
 
 export const contact = {
   phone: "03-0000-0000",
@@ -57,8 +102,8 @@ export const footerInfo = {
 export const social = {
   lineUrl:
     process.env.NEXT_PUBLIC_LINE_URL?.trim() ||
-    "https://line.me/R/ti/p/@example",
+    "https://line.me/R/ti/p/@435ucrbe",
   instagramUrl:
     process.env.NEXT_PUBLIC_INSTAGRAM_URL?.trim() ||
-    "https://www.instagram.com/example",
+    "https://www.instagram.com/coreda_tanqlab/",
 };

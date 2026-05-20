@@ -6,8 +6,15 @@ import { upcomingEvents } from "@/lib/events";
 import { siteName } from "@/lib/site-config";
 
 export const metadata: Metadata = {
-  title: `イベント・スケジュール | ${siteName}`,
+  title: "イベント・スケジュール",
   description: `${siteName}のイベントと月間スケジュール例。学びの機会としてのご案内です。`,
+  alternates: { canonical: "/events" },
+  openGraph: {
+    title: `イベント・スケジュール | ${siteName}`,
+    description: `${siteName}のイベントと月間スケジュール例。学びの機会としてのご案内です。`,
+    url: "/events",
+    type: "website",
+  },
 };
 
 export default function EventsPage() {

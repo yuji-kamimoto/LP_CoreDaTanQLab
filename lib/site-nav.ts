@@ -8,7 +8,7 @@ export const headerPrimaryNav: {
 }[] = [
   { label: "ラボについて", href: "/concept" },
   { label: "コース", href: "/courses" },
-  { label: "ニュース/イベント", href: "/news" },
+  { label: "ニュース", href: "/news" },
   { label: "料金とスケジュール", href: "/pricing" },
 ];
 
@@ -46,10 +46,6 @@ export function getMegaMenuBlocks(
     {
       title: "料金",
       links: [{ label: "詳細", href: "/pricing" }],
-    },
-    {
-      title: "アクセス",
-      links: [{ label: "詳細", href: "/access" }],
     },
     {
       title: "公式アカウント",

@@ -5,8 +5,15 @@ import { courses, courseTheme } from "@/lib/courses-data";
 import { siteName } from "@/lib/site-config";
 
 export const metadata: Metadata = {
-  title: `料金・割引 | ${siteName}`,
+  title: "料金・割引",
   description: `${siteName}の0→1・スキル・探究コースの月謝と支払い・振替の案内です。`,
+  alternates: { canonical: "/pricing" },
+  openGraph: {
+    title: `料金・割引 | ${siteName}`,
+    description: `${siteName}の0→1・スキル・探究コースの月謝と支払い・振替の案内です。`,
+    url: "/pricing",
+    type: "website",
+  },
 };
 
 export default function PricingPage() {

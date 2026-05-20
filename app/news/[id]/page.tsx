@@ -1,13 +1,63 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { ArticleJsonLd } from "@/components/JsonLd";
+import { SiteHeader } from "@/components/SiteHeader";
+
 import { formatDate } from "@/lib/format-date";
 import { getNewsDetail } from "@/lib/news";
+import { siteName, siteUrl } from "@/lib/site-config";
 
 export const revalidate = 60;
 
 type Props = { params: Promise<{ id: string }> };
+
+function stripHtml(input: string): string {
+  return input
+    .replace(/<[^>]+>/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+  const item = await getNewsDetail(id);
+  if (!item) {
+    return {
+      title: "お知らせが見つかりません",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const description = item.content
+    ? stripHtml(item.content).slice(0, 120)
+    : `${siteName}からのお知らせ「${item.title}」`;
+  const canonical = `/news/${item.id}`;
+  const image = item.eyecatch?.url;
+
+  return {
+    title: item.title,
+    description,
+    alternates: { canonical },
+    openGraph: {
+      type: "article",
+      title: item.title,
+      description,
+      url: canonical,
+      publishedTime: item.publishedAt,
+      modifiedTime: item.revisedAt || item.updatedAt,
+      images: image ? [{ url: image }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: item.title,
+      description,
+      images: image ? [image] : undefined,
+    },
+  };
+}
 
 export default async function NewsDetailPage({ params }: Props) {
   const { id } = await params;
@@ -18,7 +68,16 @@ export default async function NewsDetailPage({ params }: Props) {
   }
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-16">
+    <div className="min-h-screen bg-background">
+      <ArticleJsonLd
+        url={`${siteUrl}/news/${item.id}`}
+        headline={item.title}
+        datePublished={item.publishedAt}
+        dateModified={item.revisedAt || item.updatedAt}
+        image={item.eyecatch?.url}
+      />
+      <SiteHeader />
+      <main className="mx-auto max-w-3xl px-6 py-16">
       <p className="mb-8">
         <Link className="text-sm text-foreground/70 hover:text-accent" href="/news">
           ← お知らせ一覧
@@ -60,6 +119,7 @@ export default async function NewsDetailPage({ params }: Props) {
           <p className="mt-10 text-foreground/60">本文がありません。</p>
         )}
       </article>
-    </main>
+      </main>
+    </div>
   );
 }

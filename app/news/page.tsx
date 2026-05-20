@@ -1,42 +1,62 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
+import { SiteHeader } from "@/components/SiteHeader";
 import { formatDate } from "@/lib/format-date";
 import { getNewsList } from "@/lib/news";
+import { siteName } from "@/lib/site-config";
 
 export const revalidate = 60;
+
+export const metadata: Metadata = {
+  title: "お知らせ",
+  description: `${siteName}からのお知らせ・教室の最新情報の一覧ページです。`,
+  alternates: { canonical: "/news" },
+  openGraph: {
+    title: `お知らせ | ${siteName}`,
+    description: `${siteName}からのお知らせ・教室の最新情報の一覧ページです。`,
+    url: "/news",
+    type: "website",
+  },
+};
 
 export default async function NewsIndexPage() {
   const data = await getNewsList(50);
 
   if (!data) {
     return (
-      <main className="mx-auto max-w-3xl px-6 py-16">
-        <h1 className="text-2xl font-semibold tracking-tight">お知らせ</h1>
-        <p className="mt-4 text-foreground/70">
-          microCMS の接続情報（<code className="rounded-lg bg-foreground/10 px-1.5 py-0.5 text-sm">MICROCMS_SERVICE_DOMAIN</code>{" "}
-          と{" "}
-          <code className="rounded-lg bg-foreground/10 px-1.5 py-0.5 text-sm">MICROCMS_API_KEY</code>
-          ）を <code className="rounded-lg bg-foreground/10 px-1.5 py-0.5 text-sm">.env.local</code>{" "}
-          に設定してください。
-        </p>
-        <p className="mt-2 text-sm text-foreground/60">
-          エンドポイントIDが <code className="rounded-lg bg-foreground/10 px-1 py-0.5">news</code>{" "}
-          でない場合は <code className="rounded-lg bg-foreground/10 px-1 py-0.5">MICROCMS_NEWS_ENDPOINT</code>{" "}
-          を設定してください。
-        </p>
-        <p className="mt-8">
-          <Link className="text-accent hover:underline" href="/">
-            トップへ戻る
-          </Link>
-        </p>
-      </main>
+      <div className="min-h-screen bg-background">
+        <SiteHeader />
+        <main className="mx-auto max-w-3xl px-6 py-16">
+          <h1 className="text-2xl font-semibold tracking-tight">お知らせ</h1>
+          <p className="mt-4 text-foreground/70">
+            microCMS の接続情報（<code className="rounded-lg bg-foreground/10 px-1.5 py-0.5 text-sm">MICROCMS_SERVICE_DOMAIN</code>{" "}
+            と{" "}
+            <code className="rounded-lg bg-foreground/10 px-1.5 py-0.5 text-sm">MICROCMS_API_KEY</code>
+            ）を <code className="rounded-lg bg-foreground/10 px-1.5 py-0.5 text-sm">.env.local</code>{" "}
+            に設定してください。
+          </p>
+          <p className="mt-2 text-sm text-foreground/60">
+            エンドポイントIDが <code className="rounded-lg bg-foreground/10 px-1 py-0.5">news</code>{" "}
+            でない場合は <code className="rounded-lg bg-foreground/10 px-1 py-0.5">MICROCMS_NEWS_ENDPOINT</code>{" "}
+            を設定してください。
+          </p>
+          <p className="mt-8">
+            <Link className="text-accent hover:underline" href="/">
+              トップへ戻る
+            </Link>
+          </p>
+        </main>
+      </div>
     );
   }
 
   const { contents } = data;
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-16">
+    <div className="min-h-screen bg-background">
+      <SiteHeader />
+      <main className="mx-auto max-w-3xl px-6 py-16">
       <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
         <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">
           お知らせ
@@ -68,6 +88,7 @@ export default async function NewsIndexPage() {
           ))}
         </ul>
       )}
-    </main>
+      </main>
+    </div>
   );
 }
