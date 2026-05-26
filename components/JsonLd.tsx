@@ -121,34 +121,3 @@ export function BreadcrumbJsonLd({
   return <JsonLd data={data} />;
 }
 
-/** ニュース詳細用の Article JSON-LD */
-export function ArticleJsonLd({
-  url,
-  headline,
-  datePublished,
-  dateModified,
-  image,
-}: {
-  url: string;
-  headline: string;
-  datePublished: string;
-  dateModified?: string;
-  image?: string;
-}) {
-  const data = {
-    "@context": "https://schema.org",
-    "@type": "NewsArticle",
-    mainEntityOfPage: { "@type": "WebPage", "@id": url },
-    headline,
-    datePublished,
-    dateModified: dateModified || datePublished,
-    image: image ? [image] : [`${siteUrl}${siteOgImage.path}`],
-    author: { "@type": "Organization", name: siteName, url: siteUrl },
-    publisher: {
-      "@type": "Organization",
-      name: siteName,
-      logo: { "@type": "ImageObject", url: `${siteUrl}/logo-coreda.jpg` },
-    },
-  };
-  return <JsonLd data={data} />;
-}

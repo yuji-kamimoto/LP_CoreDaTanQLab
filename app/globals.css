@@ -10,9 +10,9 @@
   --muted: #635a52;
   --surface: #ffffff;
   --surface-warm: #fff5ec;
-  /* フッター：黒系背景（--footer-ink）／白系字（--footer-fg）。クラス名 bg-footer-ink / text-footer-fg は互換のため据え置き */
-  --footer-ink: #0a0a0a;
-  --footer-fg: #f5f5f4;
+  /* フッター：白背景（--footer-ink）／黒文字（--footer-fg）。ロゴ画像の白背景と自然になじむよう統一。クラス名は互換のため据え置き */
+  --footer-ink: #ffffff;
+  --footer-fg: #1a1614;
   --line-brand: #06c755;
   --instagram-brand: #e1306c;
 }
@@ -45,8 +45,8 @@
     --muted: #b5a89e;
     --surface: #1c1612;
     --surface-warm: #241c16;
-    --footer-ink: #000000;
-    --footer-fg: #fafafa;
+    --footer-ink: #ffffff;
+    --footer-fg: #1a1614;
     --line-brand: #06c755;
     --instagram-brand: #f77737;
   }

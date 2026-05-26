@@ -20,7 +20,7 @@ export default function PricingPage() {
   return (
     <SubpageShell title="料金について（詳細）">
       <p>
-        トップページの料金は各コースの月謝の目安です。兄弟で通塾される場合や年間一括お支払いの場合は、別途割引をご案内する予定です（開業キャンペーンの有無により変動します）。
+        各コースの月謝は以下のとおりです。兄弟で通塾される場合や年間一括お支払いの場合は、別途割引をご案内する予定です（開業キャンペーンの有無により変動します）。
       </p>
 
       <h2 className="mt-10 font-heading text-lg font-semibold text-foreground md:text-xl">

@@ -75,8 +75,8 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: [{ url: "/favicon.ico" }, { url: "/logo-coreda.jpg", type: "image/jpeg" }],
-    apple: [{ url: "/logo-coreda.jpg" }],
+    icon: "/favicon.ico",
+    apple: "/favicon.ico",
   },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim() || undefined,

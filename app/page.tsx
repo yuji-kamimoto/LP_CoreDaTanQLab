@@ -4,17 +4,13 @@ import Link from "next/link";
 import { HeroSection } from "@/components/HeroSection";
 import { HomeContactCtaSection } from "@/components/HomeContactCtaSection";
 import { HomeCourseSection } from "@/components/HomeCourseSection";
-import { HomePricingSection } from "@/components/HomePricingSection";
 import { HomeSnsSection } from "@/components/HomeSnsSection";
 import { HomeJsonLd } from "@/components/JsonLd";
-import { NewsCardGrid } from "@/components/NewsCardGrid";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { SectionDetailLink } from "@/components/SectionDetailLink";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { courses } from "@/lib/courses-data";
-import { formatDate } from "@/lib/format-date";
-import { getNewsList } from "@/lib/news";
 import {
   colocatedFreeSchool,
   contact,
@@ -24,18 +20,9 @@ import {
   siteTagline,
 } from "@/lib/site-config";
 
-export const revalidate = 60;
+export const revalidate = 86400;
 
 export default async function Home() {
-  const newsData = await getNewsList(12);
-  const latestNews = newsData?.contents ?? [];
-  const newsCardItems = latestNews.map((item) => ({
-    id: item.id,
-    title: item.title,
-    dateLabel: formatDate(item.publishedAt),
-    eyecatchUrl: item.eyecatch?.url,
-  }));
-
   return (
     <main className="min-h-screen">
       <HomeJsonLd />
@@ -160,35 +147,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 4. ニュース */}
-      <section
-        id="news"
-        className="border-t-2 border-accent/15 bg-background py-20 md:py-28"
-      >
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
-            <ScrollReveal>
-              <h2 className="font-heading text-3xl font-black tracking-tight text-foreground md:text-4xl">
-                最新のニュース
-              </h2>
-              <p className="mt-3 text-sm text-muted md:text-base">
-                教室からの最新情報をお届けします。
-              </p>
-            </ScrollReveal>
-            <ScrollReveal delay={0.06}>
-              <SectionDetailLink href="/news">
-                お知らせ一覧を見る
-              </SectionDetailLink>
-            </ScrollReveal>
-          </div>
-          <NewsCardGrid items={newsCardItems} />
-        </div>
-      </section>
-
-      {/* 5. 料金 */}
-      <HomePricingSection />
-
-      {/* 7. アクセス */}
+      {/* 4. アクセス */}
       <section
         id="access"
         className="border-t-2 border-accent/15 bg-background py-24 md:py-32"
@@ -234,10 +193,10 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 8. SNS */}
+      {/* 5. SNS */}
       <HomeSnsSection />
 
-      {/* 9. お問い合わせ */}
+      {/* 6. お問い合わせ */}
       <HomeContactCtaSection />
 
       <SiteFooter />
