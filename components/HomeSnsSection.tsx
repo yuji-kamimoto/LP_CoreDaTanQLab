@@ -1,7 +1,9 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { InstagramFeed } from "@/components/InstagramFeed";
 import { ScrollReveal } from "@/components/ScrollReveal";
+import { getInstagramMedia } from "@/lib/instagram";
 import { social } from "@/lib/site-config";
 
 type SocialCardProps = {
@@ -107,7 +109,9 @@ const instagramIcon = (
   </svg>
 );
 
-export function HomeSnsSection() {
+export async function HomeSnsSection() {
+  const instagramItems = (await getInstagramMedia(8)) ?? [];
+
   return (
     <section
       id="sns"
@@ -155,6 +159,32 @@ export function HomeSnsSection() {
           />
         </ScrollReveal>
       </div>
+
+      {instagramItems.length > 0 ? (
+        <div className="mt-16 md:mt-20">
+          <ScrollReveal>
+            <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <h3 className="font-heading text-2xl font-black tracking-tight text-foreground md:text-3xl">
+                  Instagramの最新投稿
+                </h3>
+                <p className="mt-2 text-sm text-muted md:text-base">
+                  教室の日常を 1 日 1 回更新でお届けします。
+                </p>
+              </div>
+              <Link
+                href={social.instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-semibold text-instagram-brand hover:underline md:text-base"
+              >
+                プロフィールを見る →
+              </Link>
+            </div>
+          </ScrollReveal>
+          <InstagramFeed items={instagramItems} />
+        </div>
+      ) : null}
     </section>
   );
 }
