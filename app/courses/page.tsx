@@ -1,13 +1,19 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
-import { SubpageShell } from "@/components/SubpageShell";
-import { siteName } from "@/lib/site-config";
+import { ScrollReveal } from "@/components/ScrollReveal";
+import { SiteFooter } from "@/components/SiteFooter";
+import { SiteHeader } from "@/components/SiteHeader";
 import {
   courseRoutingHints,
   courses,
   courseTheme,
-  inquiryGuidingPrinciples,
 } from "@/lib/courses-data";
+import { siteName, trialApplicationFormUrl } from "@/lib/site-config";
+import {
+  contactInquiryCtaClasses,
+  trialCtaGradientClasses,
+} from "@/lib/trial-cta-styles";
 
 export const metadata: Metadata = {
   title: "コース",
@@ -21,204 +27,410 @@ export const metadata: Metadata = {
   },
 };
 
-export default function CoursesDetailPage() {
+const stepLabelMap = {
+  zeroOne: "回",
+  skill: "回目",
+  inquiry: "STEP",
+} as const;
+
+const courseIdByKey = Object.fromEntries(
+  courses.map((c) => [c.key, c.id]),
+) as Record<(typeof courses)[number]["key"], string>;
+
+function CourseRoutingCard({
+  hint,
+  index,
+}: {
+  hint: (typeof courseRoutingHints)[number];
+  index: number;
+}) {
   return (
-    <SubpageShell title="コース">
-      <p className="leading-relaxed text-muted">
-        {`${siteName}では、お子さまの状態とご家庭のご希望に応じて「0→1」「スキル」「探究」の3コースをご用意しています。それぞれ回数・時間・ねらいが異なりますが、根底には CoreDa! の想い——好奇心に機会を、熱意に応え、行動で核をつくる——を共通に置いています。`}
+    <li className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-foreground/10 bg-surface p-5 shadow-sm transition-all duration-200 hover:border-accent/25 hover:shadow-md md:p-6">
+      <span
+        aria-hidden
+        className="pointer-events-none absolute -right-1 -top-2 font-heading text-[4.5rem] font-black leading-none text-foreground/[0.04] md:text-[5rem]"
+      >
+        {String(index + 1).padStart(2, "0")}
+      </span>
+
+      <p className="relative text-base font-bold leading-snug text-foreground md:text-lg">
+        {hint.profile}
       </p>
 
-      <section className="scroll-mt-28 border-t border-foreground/10 pt-10">
-        <h2 className="font-heading text-xl font-bold text-foreground md:text-2xl">
-          1. 対象
-        </h2>
-        <h3 className="mt-8 font-heading text-base font-semibold text-foreground md:text-lg">
-          対象年齢
-        </h3>
-        <div className="mt-4 grid gap-4 sm:grid-cols-3">
-          {courses.map((c) => (
-            <div
-              key={c.id}
-              className="rounded-2xl border-2 border-foreground/10 bg-surface px-4 py-4 shadow-sm"
-            >
-              <p className="text-sm font-bold text-accent">{c.name}</p>
-              <p className="mt-2 text-sm leading-relaxed text-muted">
-                {c.ageRange}
-              </p>
-            </div>
-          ))}
-        </div>
-        <h3 className="mt-10 font-heading text-base font-semibold text-foreground md:text-lg">
-          ターゲット層（目安）
-        </h3>
-        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-muted md:text-base">
-          {courseRoutingHints.map((hint) => (
-            <li
-              key={hint}
-              className="rounded-xl border border-foreground/10 bg-surface-warm/80 px-4 py-3 dark:bg-surface-warm/20"
-            >
-              {hint}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section className="scroll-mt-28 border-t border-foreground/10 pt-10">
-        <h2 className="font-heading text-xl font-bold text-foreground md:text-2xl">
-          2. 提供価値
-        </h2>
-        <p className="mt-3 text-sm text-muted md:text-base">
-          コースごとの訴求テーマと、子ども側に期待する変化のイメージです。
+      <div className="relative mt-5 flex flex-1 flex-col justify-end gap-3 border-t border-dashed border-foreground/10 pt-4">
+        <p className="text-[0.65rem] font-bold tracking-[0.22em] text-muted md:text-xs">
+          おすすめコース
         </p>
-        <div className="mt-8 grid gap-6 lg:grid-cols-3">
-          {courses.map((c) => {
-            const th = courseTheme[c.key];
+        <div className="flex flex-wrap items-center gap-2">
+          {hint.recommendations.map((rec, i) => {
+            const th = courseTheme[rec.key];
             return (
-              <article
-                key={c.id}
-                className="flex flex-col overflow-hidden rounded-2xl border-2 border-foreground/10 bg-surface shadow-sm"
-              >
-                <div className={`px-4 py-4 ${th.headerBg} ${th.headerText}`}>
-                  <h3 className="font-heading text-lg font-bold">{c.name}</h3>
-                  <p className="mt-2 text-sm font-medium opacity-95">
-                    {c.tagline}
-                  </p>
-                </div>
-                <div className="flex flex-1 flex-col gap-4 px-4 py-5">
-                  <p className="text-sm font-semibold text-foreground">
-                    {c.valueTheme}
-                  </p>
-                  <ul className="space-y-2 text-sm leading-relaxed text-muted">
-                    {c.childChanges.map((line) => (
-                      <li key={line} className="flex gap-2">
-                        <span className="text-accent" aria-hidden>
-                          →
-                        </span>
-                        <span>{line}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
+              <span key={rec.key} className="inline-flex items-center gap-2">
+                {i > 0 ? (
+                  <span
+                    aria-hidden
+                    className="text-xs font-bold text-muted/50"
+                  >
+                    or
+                  </span>
+                ) : null}
+                <Link
+                  href={`#${courseIdByKey[rec.key]}`}
+                  className={`inline-flex items-center rounded-full px-3.5 py-1.5 text-xs font-bold transition-opacity hover:opacity-85 md:text-sm ${th.badge}`}
+                >
+                  {rec.label}
+                </Link>
+              </span>
             );
           })}
         </div>
-      </section>
+      </div>
+    </li>
+  );
+}
 
-      {courses.map((c) => {
-        const th = courseTheme[c.key];
-        return (
-          <section
-            key={c.id}
-            id={c.id}
-            className="scroll-mt-28 border-t border-foreground/10 pt-12"
-          >
-            <div
-              className={`rounded-2xl px-5 py-6 md:px-8 md:py-8 ${th.headerBg} ${th.headerText}`}
-            >
-              <h2 className="font-heading text-2xl font-bold md:text-3xl">
-                {c.name}
-              </h2>
-              <p className="mt-2 text-sm font-medium opacity-95 md:text-base">
-                {c.tagline}
+export default function CoursesDetailPage() {
+  return (
+    <div className="min-h-screen bg-background">
+      <SiteHeader />
+
+      <main>
+        {/* Hero */}
+        <section
+          className="border-b border-foreground/10 bg-surface-warm"
+          aria-label="コース紹介の導入"
+        >
+          <div className="mx-auto max-w-5xl px-6 py-16 md:py-24 lg:py-28">
+            <ScrollReveal>
+              <p className="text-xs font-bold tracking-[0.32em] text-accent md:text-sm">
+                COURSES
+              </p>
+              <h1 className="mt-5 font-heading text-3xl font-black leading-[1.18] tracking-tight text-foreground md:text-5xl lg:text-[3.5rem] lg:leading-[1.12]">
+                3つのコースで、
+                <br className="hidden md:block" />
+                お子さまの「好き」を育てます。
+              </h1>
+              <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+                {siteName}
+                では、お子さまの状態とご家庭のご希望に合わせて「0→1」「スキル」「探究」の
+                3コースをご用意しています。回数・時間・ねらいは異なりますが、根底にはどのコースも
+                「好奇心に機会を、熱意に応え、行動で核をつくる」という共通の想いを置いています。
+              </p>
+            </ScrollReveal>
+          </div>
+        </section>
+
+        {/* コース選びのナビ */}
+        <section
+          className="mx-auto max-w-5xl px-6 py-14 md:py-20"
+          aria-labelledby="course-routing"
+        >
+          <ScrollReveal>
+            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+              <div>
+                <p className="text-[0.7rem] font-bold tracking-[0.28em] text-accent md:text-xs">
+                  HOW TO CHOOSE
+                </p>
+                <h2
+                  id="course-routing"
+                  className="mt-2 font-heading text-2xl font-black tracking-tight text-foreground md:text-3xl"
+                >
+                  どのコースが合いそう？
+                </h2>
+              </div>
+              <p className="text-sm leading-relaxed text-muted md:max-w-md md:text-base">
+                迷ったら、当てはまるタイプからご覧ください。複数を組み合わせることもできます。
               </p>
             </div>
+            <ul className="mt-8 grid gap-4 sm:grid-cols-2">
+              {courseRoutingHints.map((hint, index) => (
+                <CourseRoutingCard key={hint.id} hint={hint} index={index} />
+              ))}
+            </ul>
+          </ScrollReveal>
+        </section>
 
-            <div className="mt-8 space-y-10">
-              <div>
-                <h3 className="font-heading text-base font-semibold text-foreground md:text-lg">
-                  月の「型」（何を、どう学ぶか）
-                </h3>
-                <p className="mt-3 text-sm text-muted md:text-base">
-                  <span className="font-semibold text-foreground">
-                    {c.monthlySessions}
-                  </span>
-                  ・
-                  <span className="font-semibold tabular-nums text-foreground">
-                    {c.monthlyPrice}
-                  </span>
-                  <span className="block pt-1">{c.themeNote}</span>
-                </p>
-                <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm leading-relaxed text-muted md:text-base">
-                  {c.formatSteps.map((step) => (
-                    <li key={step}>{step}</li>
-                  ))}
-                </ol>
-                {c.formatExtra?.length ? (
-                  <ul className="mt-4 space-y-2 border-l-2 border-accent/40 pl-4 text-sm leading-relaxed text-muted">
-                    {c.formatExtra.map((line) => (
-                      <li key={line}>{line}</li>
-                    ))}
-                  </ul>
-                ) : null}
-              </div>
+        {/* 3コース比較サマリー */}
+        <section
+          className="border-y border-foreground/10 bg-background py-14 md:py-20"
+          aria-labelledby="course-summary"
+        >
+          <div className="mx-auto max-w-6xl px-6">
+            <ScrollReveal>
+              <p className="text-[0.7rem] font-bold tracking-[0.28em] text-accent md:text-xs">
+                AT A GLANCE
+              </p>
+              <h2
+                id="course-summary"
+                className="mt-2 font-heading text-2xl font-black tracking-tight text-foreground md:text-3xl"
+              >
+                3つのコース、ひと目で比較。
+              </h2>
+            </ScrollReveal>
 
-              <div>
-                <h3 className="font-heading text-base font-semibold text-foreground md:text-lg">
-                  指導の思想
-                </h3>
-                <dl className="mt-4 space-y-6 text-sm leading-relaxed md:text-base">
-                  <div>
-                    <dt className={`font-bold ${th.dtStrong}`}>目的</dt>
-                    <dd className="mt-2 text-muted">
-                      {c.philosophy.purpose}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className={`font-bold ${th.dtStrong}`}>指導スタイル</dt>
-                    <dd className="mt-2 text-muted">
-                      {c.philosophy.style}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className={`font-bold ${th.dtStrong}`}>行動規範</dt>
-                    <dd className="mt-2">
-                      <ul className="list-disc space-y-2 pl-5 text-muted">
-                        {c.philosophy.norms.map((n) => (
-                          <li key={n}>{n}</li>
-                        ))}
-                      </ul>
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className={`font-bold ${th.dtStrong}`}>
-                      保護者への共有
-                    </dt>
-                    <dd className="mt-2">
-                      <ul className="list-disc space-y-2 pl-5 text-muted">
-                        {c.philosophy.parents.map((n) => (
-                          <li key={n}>{n}</li>
-                        ))}
-                      </ul>
-                    </dd>
-                  </div>
-                </dl>
-                {c.parentNote ? (
-                  <p className="mt-4 rounded-xl bg-surface-warm px-4 py-3 text-sm text-muted dark:bg-surface-warm/15">
-                    {c.parentNote}
-                  </p>
-                ) : null}
-                {c.key === "inquiry" ? (
-                  <div className="mt-8">
-                    <h4 className="font-heading text-sm font-semibold text-foreground md:text-base">
-                      指導方針（チーム運営のベストプラクティスを参考にした10条）
-                    </h4>
-                    <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-relaxed text-muted md:text-base">
-                      {inquiryGuidingPrinciples.map((line) => (
-                        <li key={line}>{line}</li>
-                      ))}
-                    </ol>
-                  </div>
-                ) : null}
-              </div>
+            <div className="mt-8 grid gap-5 lg:grid-cols-3 lg:gap-6">
+              {courses.map((c, idx) => {
+                const th = courseTheme[c.key];
+                return (
+                  <ScrollReveal key={c.id} delay={idx * 0.05}>
+                    <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-foreground/10 bg-surface shadow-sm">
+                      <div
+                        className={`px-5 py-5 ${th.headerBg} ${th.headerText}`}
+                      >
+                        <p className="text-[0.65rem] font-bold tracking-[0.22em] opacity-90 md:text-xs">
+                          {c.ageRange}
+                        </p>
+                        <h3 className="mt-2 font-heading text-xl font-black tracking-tight md:text-2xl">
+                          {c.name}
+                        </h3>
+                        <p className="mt-2 text-sm font-medium leading-snug opacity-95">
+                          {c.tagline}
+                        </p>
+                      </div>
+                      <div className="flex flex-1 flex-col gap-5 px-5 py-6">
+                        <div>
+                          <p
+                            className={`text-[0.65rem] font-bold tracking-[0.22em] ${th.dtStrong} md:text-xs`}
+                          >
+                            提供価値
+                          </p>
+                          <p className="mt-2 text-sm font-bold leading-snug text-foreground md:text-base">
+                            {c.valueTheme}
+                          </p>
+                        </div>
+                        <div>
+                          <p
+                            className={`text-[0.65rem] font-bold tracking-[0.22em] ${th.dtStrong} md:text-xs`}
+                          >
+                            授業時間／回数
+                          </p>
+                          <p className="mt-2 text-sm text-foreground md:text-base">
+                            {c.monthlySessions}
+                          </p>
+                          <p className="mt-1 text-xs text-muted md:text-sm">
+                            {c.themeNote}
+                          </p>
+                        </div>
+                        <div>
+                          <p
+                            className={`text-[0.65rem] font-bold tracking-[0.22em] ${th.dtStrong} md:text-xs`}
+                          >
+                            子どもに起こる変化
+                          </p>
+                          <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-muted md:text-base">
+                            {c.childChanges.map((line) => (
+                              <li key={line} className="flex gap-2">
+                                <span aria-hidden className={th.dtStrong}>
+                                  →
+                                </span>
+                                <span>{line}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div className="mt-auto pt-2">
+                          <Link
+                            href={`#${c.id}`}
+                            className="inline-flex items-center gap-2 text-sm font-bold text-foreground hover:text-accent md:text-base"
+                          >
+                            このコースの詳細を見る
+                            <span aria-hidden>↓</span>
+                          </Link>
+                        </div>
+                      </div>
+                    </article>
+                  </ScrollReveal>
+                );
+              })}
             </div>
-          </section>
-        );
-      })}
 
-      <p className="mt-12 text-xs text-muted md:text-sm">
-        定員・時間割の確定版は開業時期に合わせてお知らせします。最新情報はニュースまたはお問い合わせでご確認ください。
-      </p>
-    </SubpageShell>
+            <p className="mt-6 text-xs leading-relaxed text-muted md:text-sm">
+              ※ 料金・割引・支払い方法は
+              <Link
+                href="/pricing"
+                className="font-semibold text-accent underline-offset-2 hover:underline"
+              >
+                料金とスケジュール
+              </Link>
+              のページにまとめています。
+            </p>
+          </div>
+        </section>
+
+        {/* 各コース詳細 */}
+        {courses.map((c, idx) => {
+          const th = courseTheme[c.key];
+          const stepLabel = stepLabelMap[c.key];
+
+          return (
+            <section
+              key={c.id}
+              id={c.id}
+              aria-labelledby={`${c.id}-title`}
+              className={`scroll-mt-24 border-b border-foreground/10 py-16 md:py-24 ${
+                idx % 2 === 0 ? "bg-background" : "bg-surface-warm"
+              }`}
+            >
+              <div className="mx-auto max-w-5xl px-6">
+                <ScrollReveal>
+                  {/* コースヘッダー */}
+                  <div
+                    className={`overflow-hidden rounded-3xl ${th.headerBg} ${th.headerText} px-6 py-8 md:px-10 md:py-10`}
+                  >
+                    <p className="text-[0.65rem] font-bold tracking-[0.28em] opacity-90 md:text-xs">
+                      COURSE 0{idx + 1} / {c.ageRange}
+                    </p>
+                    <h2
+                      id={`${c.id}-title`}
+                      className="mt-3 font-heading text-2xl font-black tracking-tight md:text-4xl"
+                    >
+                      {c.name}
+                    </h2>
+                    <p className="mt-3 text-base font-bold leading-snug opacity-95 md:text-lg">
+                      {c.tagline}
+                    </p>
+                    <p className="mt-4 inline-flex rounded-full bg-white/15 px-4 py-1.5 text-sm font-medium md:text-base">
+                      {c.valueTheme}
+                    </p>
+                  </div>
+                </ScrollReveal>
+
+                <div className="mt-10 space-y-12">
+                  {/* このコースで育つ3つの変化 */}
+                  <ScrollReveal>
+                    <div>
+                      <p
+                        className={`text-[0.7rem] font-bold tracking-[0.28em] ${th.dtStrong} md:text-xs`}
+                      >
+                        CHANGES
+                      </p>
+                      <h3 className="mt-2 font-heading text-xl font-black tracking-tight text-foreground md:text-2xl">
+                        このコースで育つ、子どもの変化
+                      </h3>
+                      <ul className="mt-5 grid gap-3 md:grid-cols-3">
+                        {c.childChanges.map((line, i) => (
+                          <li
+                            key={line}
+                            className="rounded-2xl border-2 border-foreground/10 bg-surface px-5 py-5 shadow-sm"
+                          >
+                            <span
+                              aria-hidden
+                              className={`font-heading text-xl font-black ${th.dtStrong} md:text-2xl`}
+                            >
+                              0{i + 1}
+                            </span>
+                            <p className="mt-3 text-sm font-bold leading-snug text-foreground md:text-base">
+                              {line}
+                            </p>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </ScrollReveal>
+
+                  {/* 月の進め方 */}
+                  <ScrollReveal>
+                    <div>
+                      <p
+                        className={`text-[0.7rem] font-bold tracking-[0.28em] ${th.dtStrong} md:text-xs`}
+                      >
+                        FLOW
+                      </p>
+                      <h3 className="mt-2 font-heading text-xl font-black tracking-tight text-foreground md:text-2xl">
+                        月の進め方
+                      </h3>
+                      <p className="mt-2 text-sm text-muted md:text-base">
+                        <span className="font-bold text-foreground">
+                          {c.monthlySessions}
+                        </span>
+                        <span className="mx-2 text-muted/50">／</span>
+                        <span>{c.themeNote}</span>
+                      </p>
+
+                      <ol className="mt-5 space-y-3">
+                        {c.formatSteps.map((step, i) => (
+                          <li
+                            key={step}
+                            className="flex items-start gap-4 rounded-2xl bg-surface px-5 py-4 shadow-sm md:gap-5 md:px-6 md:py-5"
+                          >
+                            <div
+                              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-heading text-sm font-black ${th.headerBg} ${th.headerText} md:h-12 md:w-12 md:text-base`}
+                              aria-hidden
+                            >
+                              {stepLabel === "STEP"
+                                ? `0${i + 1}`
+                                : `${i + 1}${stepLabel}`}
+                            </div>
+                            <p className="text-sm leading-relaxed text-foreground md:text-base">
+                              {step}
+                            </p>
+                          </li>
+                        ))}
+                      </ol>
+
+                      {c.formatExtra?.length ? (
+                        <ul
+                          className={`mt-5 space-y-2 rounded-2xl border-l-4 bg-surface px-5 py-4 text-sm leading-relaxed text-muted md:text-base ${th.border}`}
+                        >
+                          {c.formatExtra.map((line) => (
+                            <li key={line}>{line}</li>
+                          ))}
+                        </ul>
+                      ) : null}
+                    </div>
+                  </ScrollReveal>
+                </div>
+              </div>
+            </section>
+          );
+        })}
+
+        {/* クロージング CTA */}
+        <section
+          className="bg-surface-warm py-16 md:py-24"
+          aria-labelledby="courses-cta"
+        >
+          <div className="mx-auto max-w-4xl px-6 text-center">
+            <ScrollReveal>
+              <p className="text-xs font-bold tracking-[0.28em] text-accent md:text-sm">
+                JOIN US
+              </p>
+              <h2
+                id="courses-cta"
+                className="mt-4 font-heading text-2xl font-black leading-tight tracking-tight text-foreground md:text-3xl lg:text-4xl"
+              >
+                どのコースが合うかは、
+                <br className="hidden md:block" />
+                一緒に決めていきましょう。
+              </h2>
+              <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+                授業の雰囲気や講師との相性は、実際に体験していただくのが一番です。お子さまの様子やご家庭のお考えを伺いながら、合う通い方をご提案します。
+              </p>
+              <div className="mt-10 flex flex-col items-stretch justify-center gap-4 sm:flex-row sm:items-center">
+                <Link
+                  href={trialApplicationFormUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-flex min-h-[3.5rem] items-center justify-center rounded-full px-8 py-4 text-base font-black tracking-wide md:min-h-[4rem] md:px-10 md:text-lg ${trialCtaGradientClasses}`}
+                >
+                  無料体験に参加する
+                </Link>
+                <Link
+                  href="/contact"
+                  className={`inline-flex min-h-[3.5rem] items-center justify-center rounded-full px-8 py-4 text-base font-black tracking-wide md:min-h-[4rem] md:px-10 md:text-lg ${contactInquiryCtaClasses}`}
+                >
+                  まずは相談してみる
+                </Link>
+              </div>
+              <p className="mt-8 text-xs leading-relaxed text-muted md:text-sm">
+                ※ 定員・時間割の確定版は開業時期に合わせてお知らせします。最新情報はお問い合わせでご確認ください。
+              </p>
+            </ScrollReveal>
+          </div>
+        </section>
+      </main>
+
+      <SiteFooter />
+    </div>
   );
 }
