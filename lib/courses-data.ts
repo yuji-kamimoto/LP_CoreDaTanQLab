@@ -221,13 +221,46 @@ export const courses: CourseDefinition[] = [
 ];
 
 /** お子さま・ご家庭のタイプ別の選び方（案内用） */
-export const courseRoutingHints = [
-  "勉強はできるが目的がない・自信がない → 探究コース or スキルコース",
-  "学校が合わない・不登校気味 → 0→1コース",
-  "体験が少ない・好奇心は強い → 0→1コース or 探究コース",
-  "進学目的が強く、探求を手段化したい → 探究コース",
-  "保護者の方の不安・期待（学力、非認知、進路、居場所、将来の武器） → スキルコース or 探究コース",
-] as const;
+export type CourseRoutingHint = {
+  id: string;
+  profile: string;
+  recommendations: Array<{
+    key: CourseDefinition["key"];
+    label: string;
+  }>;
+};
+
+export const courseRoutingHints: CourseRoutingHint[] = [
+  {
+    id: "purpose-confidence",
+    profile: "勉強はできるが目的がない・自信がない",
+    recommendations: [
+      { key: "zeroOne", label: "0→1コース" },
+      { key: "skill", label: "スキルコース" },
+    ],
+  },
+  {
+    id: "school-fit",
+    profile: "学校が合わない・不登校気味",
+    recommendations: [
+      { key: "zeroOne", label: "0→1コース" },
+      { key: "inquiry", label: "探究コース" },
+    ],
+  },
+  {
+    id: "curiosity",
+    profile: "体験が少ない・好奇心は強い",
+    recommendations: [
+      { key: "zeroOne", label: "0→1コース" },
+      { key: "inquiry", label: "探究コース" },
+    ],
+  },
+  {
+    id: "admission-focus",
+    profile: "進学目的が強く、探求を手段化したい",
+    recommendations: [{ key: "inquiry", label: "探究コース" }],
+  },
+];
 
 /** 探究コース：指導方針（参考：チーム運営のベストプラクティス） */
 export const inquiryGuidingPrinciples = [

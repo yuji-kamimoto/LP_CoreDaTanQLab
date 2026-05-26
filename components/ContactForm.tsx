@@ -13,10 +13,10 @@ const inquiryOptions = [
 ] as const;
 
 const fieldPale =
-  "mt-1.5 w-full rounded-xl border border-sky-200/80 bg-[#eef6fc] px-3.5 py-3 text-sm text-foreground outline-none ring-sky-300/40 placeholder:text-muted/70 focus:border-sky-400 focus:ring-2";
+  "mt-1.5 w-full rounded-xl border border-foreground/15 bg-surface px-3.5 py-3 text-sm text-foreground outline-none ring-accent/25 placeholder:text-muted/70 focus:border-accent focus:ring-2";
 
 const fieldGrey =
-  "mt-1.5 w-full rounded-xl border border-sky-200/80 bg-[#eceff2] px-3.5 py-3 text-sm text-foreground outline-none ring-sky-300/40 placeholder:text-muted/70 focus:border-sky-400 focus:ring-2";
+  "mt-1.5 w-full rounded-xl border border-foreground/15 bg-surface-warm px-3.5 py-3 text-sm text-foreground outline-none ring-accent/25 placeholder:text-muted/70 focus:border-accent focus:ring-2";
 
 export function ContactForm() {
   const [name, setName] = useState("");
@@ -83,7 +83,7 @@ export function ContactForm() {
 
   if (status === "success") {
     return (
-      <div className="rounded-2xl border border-sky-200/80 bg-white px-6 py-10 text-center shadow-sm">
+      <div className="rounded-2xl border border-foreground/10 bg-surface px-6 py-10 text-center shadow-sm">
         <p className="font-heading text-lg font-bold text-foreground">
           お問い合わせを受け付けました
         </p>
@@ -97,7 +97,7 @@ export function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="relative rounded-2xl border border-sky-100/90 bg-white px-6 py-8 shadow-md md:px-8 md:py-10"
+      className="relative rounded-2xl border border-foreground/10 bg-surface px-6 py-8 shadow-sm md:px-8 md:py-10"
     >
       <p className="text-sm leading-relaxed text-muted">
         お待ちいただきありがとうございます。お問い合わせ内容をご記入ください。

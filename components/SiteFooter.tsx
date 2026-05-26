@@ -44,17 +44,6 @@ export function SiteFooter() {
                 </span>
               </dd>
             </div>
-            <div>
-              <dt className="text-footer-fg/55">連絡先</dt>
-              <dd className="mt-1">
-                <a
-                  href={`mailto:${contact.email}`}
-                  className="text-footer-fg hover:text-accent"
-                >
-                  {contact.email}
-                </a>
-              </dd>
-            </div>
           </dl>
         </div>
 
