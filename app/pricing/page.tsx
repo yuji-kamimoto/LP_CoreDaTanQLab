@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 import { ScrollReveal } from "@/components/ScrollReveal";
@@ -53,10 +54,10 @@ const policyBlocks: Array<{
     eyebrow: "DISCOUNT",
     title: "割引のご案内",
     description:
-      "兄弟で通塾される場合や年間一括お支払いの場合は、別途割引をご案内する予定です。開業キャンペーンの有無によって変動します。",
+      "兄弟で通塾される場合や複数コースを受講される場合は、別途割引をご案内する予定です。開業キャンペーンの有無によって変動します。",
     bullets: [
       "兄弟割（同時通塾のお子さまが対象）",
-      "年間一括お支払いの場合の優遇",
+      "複数コース受講割（2コース以上の同時受講が対象）",
       "開業キャンペーン（時期限定）",
     ],
   },
@@ -286,6 +287,39 @@ export default function PricingPage() {
               </ScrollReveal>
             ))}
           </div>
+        </section>
+
+        {/* スケジュール（画像差し替え運用：public/schedule.png を上書き） */}
+        <section
+          className="mx-auto max-w-5xl px-6 py-14 md:py-20"
+          aria-labelledby="schedule"
+        >
+          <ScrollReveal>
+            <p className="text-[0.7rem] font-bold tracking-[0.28em] text-accent md:text-xs">
+              SCHEDULE
+            </p>
+            <h2
+              id="schedule"
+              className="mt-2 font-heading text-2xl font-black tracking-tight text-foreground md:text-3xl"
+            >
+              スケジュール
+            </h2>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.06}>
+            <div className="mt-8 overflow-hidden rounded-3xl border border-foreground/10 bg-surface shadow-sm">
+              <div className="relative aspect-[4/3] w-full">
+                <Image
+                  src="/schedule.png"
+                  alt={`${siteName}の最新スケジュール`}
+                  fill
+                  className="object-contain"
+                  sizes="(min-width: 1024px) 960px, 100vw"
+                  priority={false}
+                />
+              </div>
+            </div>
+          </ScrollReveal>
         </section>
 
         {/* FAQ */}
