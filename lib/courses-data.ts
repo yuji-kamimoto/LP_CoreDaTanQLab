@@ -61,9 +61,9 @@ export type CourseDefinition = {
   monthlySessions: string;
   monthlyPrice: string;
   themeNote: string;
+  /** 準備中（Coming Soon）として案内するコース */
+  comingSoon?: boolean;
   targetProfiles: string[];
-  formatSteps: string[];
-  formatExtra?: string[];
   philosophy: {
     purpose: string;
     style: string;
@@ -98,10 +98,6 @@ export const courses: CourseDefinition[] = [
     targetProfiles: [
       "学校が合わない／不登校気味 → 0→1コース",
       "体験が少ない／好奇心は強い → 0→1コース or 探究コース",
-    ],
-    formatSteps: [
-      "1回目：とりあえず体験してみる＆全体像を俯瞰する",
-      "2回目：工夫してみる＆アウトプットして学びにする",
     ],
     philosophy: {
       purpose: "未知分野への挑戦にポジティブな感覚を醸成する",
@@ -140,19 +136,10 @@ export const courses: CourseDefinition[] = [
     monthlySessions: "2時間×4回／月",
     monthlyPrice: "19,800円（税込）",
     themeNote: "月ごとに異なるテーマを扱います",
+    comingSoon: true,
     targetProfiles: [
       "勉強はできるが目的がない／自信がない → 探究コース or スキルコース",
       "保護者の不安・期待（学力、非認知、進路、居場所、将来の武器） → スキルコース or 探究コース",
-    ],
-    formatSteps: [
-      "1回目：インプット50％＆プラクティス50％",
-      "2回目：インプット20％＆クエスト80％",
-      "3回目：学んだスキルを活かしてプロダクト作成",
-      "4回目：作品とこだわりを発表しあい、レビューも行う",
-    ],
-    formatExtra: [
-      "インプット用の資料は事前配布。周りに迷惑をかけない範囲で作業可能。自分のペースで進められるよう、環境や物品を支給します",
-      "周囲からのレビューにより技術レベルを評価・認定し、探究コースのプロジェクトに活用できます",
     ],
     philosophy: {
       purpose: "「できる」を増やすことで「やりたい」の幅を広げ、解像度を高める",
@@ -184,23 +171,17 @@ export const courses: CourseDefinition[] = [
       "想定外のトラブルを受け入れ、修正しながら達成するレジリエンス",
     ],
     homeHighlights: [
-      "月8回×各1.5時間・税込24,200円（期間指定なし）",
+      "月8回×各1.5時間・税込29,800円（期間指定なし）",
       "問い立て〜調査・構造化〜試行錯誤〜レビュー＆発表の流れ",
       "大学生・社会人からのレビューを取り入れ改善",
     ],
     monthlySessions: "1.5時間×8回／月",
-    monthlyPrice: "24,200円（税込）",
+    monthlyPrice: "29,800円（税込）",
     themeNote: "期間指定なし（プロジェクトに応じて伴走）",
     targetProfiles: [
       "勉強はできるが目的がない／自信がない → 探究コース or スキルコース",
       "体験が少ない／好奇心は強い → 0→1コース or 探究コース",
       "進学目的が強く、探求を手段化したい → 探究コース",
-    ],
-    formatSteps: [
-      "問い／目標を立てる：身近な課題やテーマ、技術から深掘りしたいものを選定",
-      "調べ学習＆構造化：歴史や技術について調査し、現状をまとめる",
-      "調査＆試行錯誤：実際に手を動かしてみる",
-      "レビュー＆発表：大学生や社会人からレビューを得ながら改善し、みんなの前で発表する",
     ],
     philosophy: {
       purpose:

@@ -183,18 +183,33 @@ export default function PricingPage() {
                   <ScrollReveal key={c.id} delay={idx * 0.05}>
                     <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-foreground/10 bg-surface shadow-sm">
                       <div className={`px-5 py-5 ${th.headerBg} ${th.headerText}`}>
-                        <p className="text-[0.65rem] font-bold tracking-[0.22em] opacity-90 md:text-xs">
-                          {c.ageRange}
-                        </p>
+                        <div className="flex items-center justify-between gap-3">
+                          <p className="text-[0.65rem] font-bold tracking-[0.22em] opacity-90 md:text-xs">
+                            {c.ageRange}
+                          </p>
+                          {c.comingSoon ? (
+                            <span className="inline-flex items-center rounded-full bg-white/20 px-3 py-1 text-[0.6rem] font-black tracking-[0.18em] md:text-[0.65rem]">
+                              COMING SOON
+                            </span>
+                          ) : null}
+                        </div>
                         <h3 className="mt-2 font-heading text-xl font-black tracking-tight md:text-2xl">
                           {c.name}
                         </h3>
-                        <p className="mt-3 font-heading text-3xl font-black tabular-nums md:text-4xl">
-                          {c.monthlyPrice}
-                        </p>
-                        <p className="mt-1 text-[0.65rem] tracking-[0.22em] opacity-85 md:text-xs">
-                          MONTHLY
-                        </p>
+                        {c.comingSoon ? (
+                          <p className="mt-3 font-heading text-2xl font-black md:text-3xl">
+                            準備中
+                          </p>
+                        ) : (
+                          <>
+                            <p className="mt-3 font-heading text-3xl font-black tabular-nums md:text-4xl">
+                              {c.monthlyPrice}
+                            </p>
+                            <p className="mt-1 text-[0.65rem] tracking-[0.22em] opacity-85 md:text-xs">
+                              MONTHLY
+                            </p>
+                          </>
+                        )}
                       </div>
                       <div className="flex flex-1 flex-col gap-4 px-5 py-6">
                         <div>
@@ -218,13 +233,19 @@ export default function PricingPage() {
                           </p>
                         </div>
                         <div className="mt-auto pt-3">
-                          <Link
-                            href={`/courses#${c.id}`}
-                            className="inline-flex items-center gap-2 text-sm font-bold text-foreground hover:text-accent md:text-base"
-                          >
-                            このコースの内容を見る
-                            <span aria-hidden>→</span>
-                          </Link>
+                          {c.comingSoon ? (
+                            <span className="inline-flex items-center gap-2 text-sm font-bold text-muted md:text-base">
+                              準備中です
+                            </span>
+                          ) : (
+                            <Link
+                              href={`/courses#${c.id}`}
+                              className="inline-flex items-center gap-2 text-sm font-bold text-foreground hover:text-accent md:text-base"
+                            >
+                              このコースの内容を見る
+                              <span aria-hidden>→</span>
+                            </Link>
+                          )}
                         </div>
                       </div>
                     </article>
