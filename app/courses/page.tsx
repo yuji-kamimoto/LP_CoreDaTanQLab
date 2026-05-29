@@ -27,12 +27,6 @@ export const metadata: Metadata = {
   },
 };
 
-const stepLabelMap = {
-  zeroOne: "回",
-  skill: "回目",
-  inquiry: "STEP",
-} as const;
-
 const courseIdByKey = Object.fromEntries(
   courses.map((c) => [c.key, c.id]),
 ) as Record<(typeof courses)[number]["key"], string>;
@@ -173,7 +167,12 @@ export default function CoursesDetailPage() {
                 const th = courseTheme[c.key];
                 return (
                   <ScrollReveal key={c.id} delay={idx * 0.05}>
-                    <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-foreground/10 bg-surface shadow-sm">
+                    <article className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-foreground/10 bg-surface shadow-sm">
+                      <div
+                        className={`flex h-full flex-col ${
+                          c.comingSoon ? "grayscale" : ""
+                        }`}
+                      >
                       <div
                         className={`px-5 py-5 ${th.headerBg} ${th.headerText}`}
                       >
@@ -229,15 +228,33 @@ export default function CoursesDetailPage() {
                           </ul>
                         </div>
                         <div className="mt-auto pt-2">
-                          <Link
-                            href={`#${c.id}`}
-                            className="inline-flex items-center gap-2 text-sm font-bold text-foreground hover:text-accent md:text-base"
-                          >
-                            このコースの詳細を見る
-                            <span aria-hidden>↓</span>
-                          </Link>
+                          {c.comingSoon ? (
+                            <span className="inline-flex items-center gap-2 text-sm font-bold text-muted md:text-base">
+                              準備中です
+                            </span>
+                          ) : (
+                            <Link
+                              href={`#${c.id}`}
+                              className="inline-flex items-center gap-2 text-sm font-bold text-foreground hover:text-accent md:text-base"
+                            >
+                              このコースの詳細を見る
+                              <span aria-hidden>↓</span>
+                            </Link>
+                          )}
                         </div>
                       </div>
+                      </div>
+
+                      {c.comingSoon ? (
+                        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 bg-neutral-900/70 px-4 text-center backdrop-blur-[2px]">
+                          <span className="font-heading text-3xl font-black uppercase tracking-[0.1em] text-white drop-shadow-lg md:text-4xl">
+                            Coming Soon
+                          </span>
+                          <span className="text-xs font-bold tracking-wide text-white/85 md:text-sm">
+                            準備中です
+                          </span>
+                        </div>
+                      ) : null}
                     </article>
                   </ScrollReveal>
                 );
@@ -260,7 +277,6 @@ export default function CoursesDetailPage() {
         {/* 各コース詳細 */}
         {courses.map((c, idx) => {
           const th = courseTheme[c.key];
-          const stepLabel = stepLabelMap[c.key];
 
           return (
             <section
@@ -277,9 +293,16 @@ export default function CoursesDetailPage() {
                   <div
                     className={`overflow-hidden rounded-3xl ${th.headerBg} ${th.headerText} px-6 py-8 md:px-10 md:py-10`}
                   >
-                    <p className="text-[0.65rem] font-bold tracking-[0.28em] opacity-90 md:text-xs">
-                      COURSE 0{idx + 1} / {c.ageRange}
-                    </p>
+                    <div className="flex flex-wrap items-center gap-3">
+                      <p className="text-[0.65rem] font-bold tracking-[0.28em] opacity-90 md:text-xs">
+                        COURSE 0{idx + 1} / {c.ageRange}
+                      </p>
+                      {c.comingSoon ? (
+                        <span className="inline-flex items-center rounded-full bg-white/20 px-3 py-1 text-[0.6rem] font-black tracking-[0.18em] md:text-[0.65rem]">
+                          COMING SOON
+                        </span>
+                      ) : null}
+                    </div>
                     <h2
                       id={`${c.id}-title`}
                       className="mt-3 font-heading text-2xl font-black tracking-tight md:text-4xl"
@@ -296,89 +319,64 @@ export default function CoursesDetailPage() {
                 </ScrollReveal>
 
                 <div className="mt-10 space-y-12">
-                  {/* このコースで育つ3つの変化 */}
-                  <ScrollReveal>
-                    <div>
-                      <p
-                        className={`text-[0.7rem] font-bold tracking-[0.28em] ${th.dtStrong} md:text-xs`}
-                      >
-                        CHANGES
-                      </p>
-                      <h3 className="mt-2 font-heading text-xl font-black tracking-tight text-foreground md:text-2xl">
-                        このコースで育つ、子どもの変化
-                      </h3>
-                      <ul className="mt-5 grid gap-3 md:grid-cols-3">
-                        {c.childChanges.map((line, i) => (
-                          <li
-                            key={line}
-                            className="rounded-2xl border-2 border-foreground/10 bg-surface px-5 py-5 shadow-sm"
-                          >
-                            <span
-                              aria-hidden
-                              className={`font-heading text-xl font-black ${th.dtStrong} md:text-2xl`}
-                            >
-                              0{i + 1}
-                            </span>
-                            <p className="mt-3 text-sm font-bold leading-snug text-foreground md:text-base">
-                              {line}
-                            </p>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </ScrollReveal>
-
-                  {/* 月の進め方 */}
-                  <ScrollReveal>
-                    <div>
-                      <p
-                        className={`text-[0.7rem] font-bold tracking-[0.28em] ${th.dtStrong} md:text-xs`}
-                      >
-                        FLOW
-                      </p>
-                      <h3 className="mt-2 font-heading text-xl font-black tracking-tight text-foreground md:text-2xl">
-                        月の進め方
-                      </h3>
-                      <p className="mt-2 text-sm text-muted md:text-base">
-                        <span className="font-bold text-foreground">
-                          {c.monthlySessions}
-                        </span>
-                        <span className="mx-2 text-muted/50">／</span>
-                        <span>{c.themeNote}</span>
-                      </p>
-
-                      <ol className="mt-5 space-y-3">
-                        {c.formatSteps.map((step, i) => (
-                          <li
-                            key={step}
-                            className="flex items-start gap-4 rounded-2xl bg-surface px-5 py-4 shadow-sm md:gap-5 md:px-6 md:py-5"
-                          >
-                            <div
-                              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-heading text-sm font-black ${th.headerBg} ${th.headerText} md:h-12 md:w-12 md:text-base`}
-                              aria-hidden
-                            >
-                              {stepLabel === "STEP"
-                                ? `0${i + 1}`
-                                : `${i + 1}${stepLabel}`}
-                            </div>
-                            <p className="text-sm leading-relaxed text-foreground md:text-base">
-                              {step}
-                            </p>
-                          </li>
-                        ))}
-                      </ol>
-
-                      {c.formatExtra?.length ? (
-                        <ul
-                          className={`mt-5 space-y-2 rounded-2xl border-l-4 bg-surface px-5 py-4 text-sm leading-relaxed text-muted md:text-base ${th.border}`}
+                  {c.comingSoon ? (
+                    <ScrollReveal>
+                      <div className="rounded-3xl border-2 border-dashed border-foreground/15 bg-surface px-6 py-12 text-center md:px-10 md:py-16">
+                        <p
+                          className={`text-[0.7rem] font-bold tracking-[0.28em] ${th.dtStrong} md:text-xs`}
                         >
-                          {c.formatExtra.map((line) => (
-                            <li key={line}>{line}</li>
+                          COMING SOON
+                        </p>
+                        <h3 className="mt-3 font-heading text-2xl font-black tracking-tight text-foreground md:text-3xl">
+                          ただいま準備中です
+                        </h3>
+                        <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-muted md:text-base">
+                          {c.name}
+                          は現在準備を進めています。開講時期や詳しい内容が決まり次第、こちらのページでお知らせします。先行してご相談されたい方は、お気軽にお問い合わせください。
+                        </p>
+                        <div className="mt-8 flex justify-center">
+                          <Link
+                            href="/contact"
+                            className="inline-flex min-h-[3rem] items-center justify-center rounded-full border-2 border-foreground/15 px-7 py-3 text-sm font-bold text-foreground transition-colors hover:border-accent hover:text-accent md:text-base"
+                          >
+                            このコースについて問い合わせる
+                          </Link>
+                        </div>
+                      </div>
+                    </ScrollReveal>
+                  ) : (
+                    /* このコースで育つ3つの変化 */
+                    <ScrollReveal>
+                      <div>
+                        <p
+                          className={`text-[0.7rem] font-bold tracking-[0.28em] ${th.dtStrong} md:text-xs`}
+                        >
+                          CHANGES
+                        </p>
+                        <h3 className="mt-2 font-heading text-xl font-black tracking-tight text-foreground md:text-2xl">
+                          このコースで育つ、子どもの変化
+                        </h3>
+                        <ul className="mt-5 grid gap-3 md:grid-cols-3">
+                          {c.childChanges.map((line, i) => (
+                            <li
+                              key={line}
+                              className="rounded-2xl border-2 border-foreground/10 bg-surface px-5 py-5 shadow-sm"
+                            >
+                              <span
+                                aria-hidden
+                                className={`font-heading text-xl font-black ${th.dtStrong} md:text-2xl`}
+                              >
+                                0{i + 1}
+                              </span>
+                              <p className="mt-3 text-sm font-bold leading-snug text-foreground md:text-base">
+                                {line}
+                              </p>
+                            </li>
                           ))}
                         </ul>
-                      ) : null}
-                    </div>
-                  </ScrollReveal>
+                      </div>
+                    </ScrollReveal>
+                  )}
                 </div>
               </div>
             </section>
