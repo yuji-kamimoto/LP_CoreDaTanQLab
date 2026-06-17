@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 
-import { contact } from "@/lib/site-config";
 import { trialCtaGradientClasses } from "@/lib/trial-cta-styles";
 
 const inquiryOptions = [
@@ -65,11 +64,11 @@ export function ContactForm() {
 
       if (data.error === "mail_not_configured") {
         setErrorMessage(
-          "送信機能の準備中です。お手数ですが、メールにてお問い合わせください。",
+          "送信機能の準備中です。お手数ですが、時間をおいて再度お試しください。",
         );
       } else {
         setErrorMessage(
-          "送信に失敗しました。時間をおいて再度お試しいただくか、メールでご連絡ください。",
+          "送信に失敗しました。時間をおいて再度お試しください。",
         );
       }
       setStatus("error");
@@ -237,10 +236,7 @@ export function ContactForm() {
 
       {status === "error" && errorMessage ? (
         <p className="mt-6 text-sm text-red-700" role="alert">
-          {errorMessage}{" "}
-          <a href={`mailto:${contact.email}`} className="font-semibold underline">
-            {contact.email}
-          </a>
+          {errorMessage}
         </p>
       ) : null}
 

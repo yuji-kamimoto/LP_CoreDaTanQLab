@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
+import nodemailer from "nodemailer";
 
-import { contact, siteName } from "@/lib/site-config";
+import { siteName } from "@/lib/site-config";
+
+export const runtime = "nodejs";
 
 const LIMITS = {
   name: 120,
@@ -59,14 +62,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "message" }, { status: 400 });
   }
 
-  const apiKey = process.env.RESEND_API_KEY?.trim();
-  const to =
-    process.env.CONTACT_TO_EMAIL?.trim() || contact.email;
-  const from =
-    process.env.RESEND_FROM_EMAIL?.trim() ||
-    `${siteName}お問い合わせ <onboarding@resend.dev>`;
+  const host = process.env.SMTP_HOST?.trim();
+  const port = Number(process.env.SMTP_PORT?.trim() || "465");
+  const user = process.env.SMTP_USER?.trim();
+  const pass = process.env.SMTP_PASS;
+  const to = process.env.CONTACT_TO_EMAIL?.trim();
+  const from = process.env.CONTACT_FROM_EMAIL?.trim() || user;
 
-  if (!apiKey) {
+  if (!host || !user || !pass || !to || !from) {
     return NextResponse.json(
       { error: "mail_not_configured" },
       { status: 503 },
@@ -83,24 +86,23 @@ export async function POST(request: Request) {
     message,
   ].join("\n");
 
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from,
-      to: [to],
-      reply_to: email,
-      subject: `【${siteName}】お問い合わせ: ${inquiryType}`,
-      text,
-    }),
+  const transporter = nodemailer.createTransport({
+    host,
+    port,
+    secure: port === 465,
+    auth: { user, pass },
   });
 
-  if (!res.ok) {
-    const errText = await res.text().catch(() => "");
-    console.error("[contact] Resend error", res.status, errText);
+  try {
+    await transporter.sendMail({
+      from: `${siteName}お問い合わせ <${from}>`,
+      to,
+      replyTo: email,
+      subject: `【${siteName}】お問い合わせ: ${inquiryType}`,
+      text,
+    });
+  } catch (err) {
+    console.error("[contact] SMTP error", err);
     return NextResponse.json({ error: "send_failed" }, { status: 502 });
   }
 
