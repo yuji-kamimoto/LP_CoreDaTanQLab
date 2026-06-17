@@ -1,23 +1,10 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import { ContactForm } from "@/components/ContactForm";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import {
-  SocialCard,
-  instagramBrandClass,
-  instagramIcon,
-  lineBrandClass,
-  lineIcon,
-} from "@/components/SocialCard";
-import {
-  siteName,
-  social,
-  trialApplicationFormUrl,
-} from "@/lib/site-config";
-import { trialCtaGradientClasses } from "@/lib/trial-cta-styles";
+import { siteName } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "お問い合わせ",
@@ -57,12 +44,12 @@ export default function ContactPage() {
           </div>
         </section>
 
-        {/* フォーム + 補足情報 */}
+        {/* フォーム */}
         <section
           className="border-t border-foreground/10 bg-background py-14 md:py-20"
           aria-labelledby="contact-form"
         >
-          <div className="mx-auto grid max-w-6xl gap-10 px-6 lg:grid-cols-[1.5fr_1fr] lg:gap-12">
+          <div className="mx-auto max-w-2xl px-6">
             <ScrollReveal>
               <div>
                 <p className="text-[0.7rem] font-bold tracking-[0.28em] text-accent md:text-xs">
@@ -82,47 +69,6 @@ export default function ContactPage() {
                   <ContactForm />
                 </div>
               </div>
-            </ScrollReveal>
-
-            <ScrollReveal delay={0.05}>
-              <aside className="flex h-full flex-col gap-6">
-                <div className="rounded-2xl bg-white p-6 shadow-md md:p-7">
-                  <p className="text-center font-heading text-lg font-black tracking-tight text-foreground md:text-xl">
-                    まずは無料体験から
-                  </p>
-                  <p className="mt-3 text-center text-sm leading-relaxed text-muted md:text-base">
-                    授業の雰囲気や講師との相性を、実際にご確認いただけます。
-                  </p>
-                  <Link
-                    href={trialApplicationFormUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`mt-5 inline-flex min-h-[3.75rem] w-full items-center justify-center rounded-full px-4 py-3 text-sm font-black tracking-wide md:min-h-[4rem] md:text-base ${trialCtaGradientClasses}`}
-                  >
-                    無料体験授業のお申し込み
-                  </Link>
-                </div>
-
-                <SocialCard
-                  brandClass={lineBrandClass}
-                  icon={lineIcon}
-                  label="LINE公式アカウント"
-                  description="イベント情報やお知らせはこちらから！"
-                  ctaText="友だち追加はこちら"
-                  href={social.lineUrl}
-                  compact
-                />
-
-                <SocialCard
-                  brandClass={instagramBrandClass}
-                  icon={instagramIcon}
-                  label="Instagram"
-                  description="写真とリールで、教室の様子をお届けしています。"
-                  ctaText="Instagramを見る"
-                  href={social.instagramUrl}
-                  compact
-                />
-              </aside>
             </ScrollReveal>
           </div>
         </section>
