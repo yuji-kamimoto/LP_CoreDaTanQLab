@@ -154,12 +154,16 @@ export function ContactForm() {
         <div>
           <label htmlFor="contact-phone" className="text-sm font-bold text-foreground">
             電話番号
+            <span className="ml-0.5 text-red-600" aria-hidden>
+              *
+            </span>
           </label>
           <input
             id="contact-phone"
             name="phone"
             type="tel"
             autoComplete="tel"
+            required
             maxLength={40}
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
