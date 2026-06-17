@@ -64,8 +64,6 @@ export const siteMetaDescription = `${siteTagline} ${coreDaNamingJa}`;
 export const heroPhrase = "好き✖️できる で突き抜けろ！";
 
 export const contact = {
-  phone: "03-0000-0000",
-  email: "contact@oneangle.jp",
   /** 表示用 */
   address: "〒305-0031 茨城県つくば市吾妻3丁目-11-5",
   /** Google マップの埋め込み用 URL（共有 → 地図を埋め込む で取得したものを推奨） */

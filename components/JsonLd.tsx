@@ -39,7 +39,6 @@ export function HomeJsonLd() {
     image: `${siteUrl}${siteOgImage.path}`,
     description: siteTagline,
     slogan: siteTagline,
-    email: contact.email,
     address: {
       "@type": "PostalAddress",
       streetAddress: "吾妻3丁目-11-5",

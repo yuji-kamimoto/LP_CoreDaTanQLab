@@ -82,8 +82,8 @@ export const metadata: Metadata = {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim() || undefined,
   },
   formatDetection: {
-    telephone: true,
-    email: true,
+    telephone: false,
+    email: false,
     address: true,
   },
 };

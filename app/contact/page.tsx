@@ -75,7 +75,7 @@ export default function ContactPage() {
                   フォームから送信
                 </h2>
                 <p className="mt-3 text-sm leading-relaxed text-muted md:text-base">
-                  下記フォームに必要事項をご入力のうえ送信ください。お急ぎの場合はメールでもお問い合わせいただけます。
+                  下記フォームに必要事項をご入力のうえ送信ください。
                 </p>
 
                 <div className="mt-8">
