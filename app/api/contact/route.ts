@@ -55,6 +55,9 @@ export async function POST(request: Request) {
   if (!email || email.length > LIMITS.email || !isValidEmail(email)) {
     return NextResponse.json({ error: "email" }, { status: 400 });
   }
+  if (!phone || phone.length > LIMITS.phone) {
+    return NextResponse.json({ error: "phone" }, { status: 400 });
+  }
   if (!inquiryType || !INQUIRY_TYPES.has(inquiryType)) {
     return NextResponse.json({ error: "inquiryType" }, { status: 400 });
   }
@@ -79,7 +82,7 @@ export async function POST(request: Request) {
   const text = [
     `お名前: ${name}`,
     `メール: ${email}`,
-    phone ? `電話: ${phone}` : "電話: （未入力）",
+    `電話: ${phone}`,
     `ご用件: ${inquiryType}`,
     "",
     "お問い合わせ内容:",
