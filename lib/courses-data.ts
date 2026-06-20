@@ -48,6 +48,15 @@ export const courseTheme: Record<
   },
 };
 
+export type CourseProfessionalPlan = {
+  /** プランの表示名（例: 探究コース-プロフェッショナル） */
+  name: string;
+  /** 月額料金の表示文字列 */
+  price: string;
+  /** 対象・用途の補足説明 */
+  note: string;
+};
+
 export type CourseDefinition = {
   key: keyof typeof courseAnchor;
   id: string;
@@ -63,6 +72,8 @@ export type CourseDefinition = {
   themeNote: string;
   /** 準備中（Coming Soon）として案内するコース */
   comingSoon?: boolean;
+  /** 上位プラン（料金・対象が異なるティア） */
+  professionalPlan?: CourseProfessionalPlan;
   targetProfiles: string[];
   philosophy: {
     purpose: string;
@@ -171,13 +182,18 @@ export const courses: CourseDefinition[] = [
       "想定外のトラブルを受け入れ、修正しながら達成するレジリエンス",
     ],
     homeHighlights: [
-      "月8回×各1.5時間・税込29,800円（期間指定なし）",
+      "月8回×各1.5時間・税込19,800円〜（期間指定なし）",
       "問い立て〜調査・構造化〜試行錯誤〜レビュー＆発表の流れ",
       "大学生・社会人からのレビューを取り入れ改善",
     ],
     monthlySessions: "1.5時間×8回／月",
-    monthlyPrice: "29,800円（税込）",
+    monthlyPrice: "19,800円（税込）",
     themeNote: "期間指定なし（プロジェクトに応じて伴走）",
+    professionalPlan: {
+      name: "探究コース-プロフェッショナル",
+      price: "33,000円（税込）",
+      note: "受験への活用・特殊機材を使用する高度な探究向け",
+    },
     targetProfiles: [
       "勉強はできるが目的がない／自信がない → 探究コース or スキルコース",
       "体験が少ない／好奇心は強い → 0→1コース or 探究コース",

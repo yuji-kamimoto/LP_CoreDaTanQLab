@@ -206,8 +206,21 @@ export default function PricingPage() {
                               {c.monthlyPrice}
                             </p>
                             <p className="mt-1 text-[0.65rem] tracking-[0.22em] opacity-85 md:text-xs">
-                              MONTHLY
+                              {c.professionalPlan ? "BASIC MONTHLY" : "MONTHLY"}
                             </p>
+                            {c.professionalPlan && (
+                              <div className="mt-4 rounded-xl bg-white/15 px-4 py-3">
+                                <p className="text-[0.6rem] font-black tracking-[0.2em] opacity-90 md:text-[0.65rem]">
+                                  {c.professionalPlan.name}
+                                </p>
+                                <p className="mt-1 font-heading text-2xl font-black tabular-nums md:text-3xl">
+                                  {c.professionalPlan.price}
+                                </p>
+                                <p className="mt-0.5 text-[0.6rem] leading-snug opacity-80 md:text-[0.65rem]">
+                                  {c.professionalPlan.note}
+                                </p>
+                              </div>
+                            )}
                           </>
                         )}
                       </div>
