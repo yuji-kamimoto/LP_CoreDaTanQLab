@@ -202,7 +202,7 @@ export default function PricingPage() {
                           </p>
                         ) : (
                           <>
-                            <p className="mt-3 font-heading text-3xl font-black tabular-nums md:text-4xl">
+                            <p className="mt-3 font-heading text-2xl font-black tabular-nums leading-none md:text-3xl">
                               {c.monthlyPrice}
                             </p>
                             <p className="mt-1 text-[0.65rem] tracking-[0.22em] opacity-85 md:text-xs">
@@ -213,7 +213,7 @@ export default function PricingPage() {
                                 <p className="text-[0.6rem] font-black tracking-[0.2em] opacity-90 md:text-[0.65rem]">
                                   {c.professionalPlan.name}
                                 </p>
-                                <p className="mt-1 font-heading text-2xl font-black tabular-nums md:text-3xl">
+                                <p className="mt-1 font-heading text-xl font-black tabular-nums leading-none md:text-2xl">
                                   {c.professionalPlan.price}
                                 </p>
                                 <p className="mt-0.5 text-[0.6rem] leading-snug opacity-80 md:text-[0.65rem]">
