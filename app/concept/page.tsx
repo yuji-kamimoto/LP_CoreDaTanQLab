@@ -191,7 +191,7 @@ export default function ConceptPage() {
         >
           <div className="absolute inset-0 opacity-[0.08]" aria-hidden>
             <Image
-              src="/Lab_Preview_Image.jpg"
+              src="/Lab_Preview_Image.jpeg"
               alt=""
               fill
               className="object-cover"

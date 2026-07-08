@@ -76,7 +76,7 @@ export default async function Home() {
             <ScrollReveal delay={0.08}>
               <div className="relative aspect-[16/10] w-full overflow-hidden rounded-3xl shadow-xl ring-2 ring-white/20">
                 <Image
-                  src="/Lab_Preview_Image.jpg"
+                  src="/Lab_Preview_Image.jpeg"
                   alt={`${siteName}の学びのイメージ`}
                   fill
                   className="object-cover"

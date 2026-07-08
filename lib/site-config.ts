@@ -22,7 +22,7 @@ export const siteUrl = (
  * 用意できるまでは既存のラボ紹介画像をフォールバックとして利用する。
  */
 export const siteOgImage = {
-  path: "/Lab_Preview_Image.jpg",
+  path: "/Lab_Preview_Image.jpeg",
   width: 1200,
   height: 630,
   alt: "CoreDa! 探究ラボ — 好奇心を行動へ、君の核を育てる探究学習教室",
@@ -87,7 +87,7 @@ export const trialApplicationFormUrl =
 export const footerInfo = {
   /** フッター「営業時間」表示用（平日・土日で改行） */
   businessHoursWeekday: "平日 15:30〜21:00",
-  businessHoursWeekend: "土日 9:00〜12:00",
+  businessHoursWeekend: "土日 10:00〜18:00",
   /** 目安時間の補足（生徒の有無による調整） */
   businessHoursNote:
     "※ 生徒の在籍状況（お預かりの有無など）に応じて、開室・営業時間を前後させたり短縮したりする場合があります。",
