@@ -19,7 +19,7 @@ export function getSiteMenuItems(
     },
     {
       title: "コース",
-      subtitle: "0→1・スキル・探究の3コース",
+      subtitle: "0→1・探究の2コース",
       href: "/courses",
     },
     {

@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { ScrollReveal } from "@/components/ScrollReveal";
 import type { CourseDefinition } from "@/lib/courses-data";
-import { courseTheme } from "@/lib/courses-data";
+import { courseTheme, showComingSoonUI } from "@/lib/courses-data";
 
 type Props = {
   course: CourseDefinition;
@@ -18,10 +18,11 @@ export function HomeCourseSection({
   imagePosition = "right",
 }: Props) {
   const th = courseTheme[course.key];
+  const comingSoonVisible = showComingSoonUI(course);
 
   const textPanel = (
     <div className="flex flex-col justify-center px-8 py-10 text-center md:px-12 md:py-14">
-      {course.comingSoon ? (
+      {comingSoonVisible ? (
         <span className="mx-auto mb-3 inline-flex items-center rounded-full bg-white/20 px-3.5 py-1 text-[0.65rem] font-black tracking-[0.18em] text-white md:text-xs">
           COMING SOON
         </span>
@@ -50,7 +51,7 @@ export function HomeCourseSection({
         <span className="text-sm font-bold text-white">{course.ageRange}</span>
       </div>
       <div className="mt-8 flex w-full justify-center">
-        {course.comingSoon ? (
+        {comingSoonVisible ? (
           <span className="inline-flex w-full max-w-lg min-h-[3.25rem] items-center justify-center gap-2 rounded-full bg-white/10 px-10 py-3 text-base font-bold text-white/70 md:min-h-[3.75rem] md:px-14 md:py-4 md:text-lg">
             準備中です
           </span>
@@ -94,7 +95,7 @@ export function HomeCourseSection({
       >
         <div
           className={`grid md:grid-cols-2 ${
-            course.comingSoon ? "grayscale" : ""
+            course.comingSoon && comingSoonVisible ? "grayscale" : ""
           } ${
             imagePosition === "left" ? "md:[&>*:first-child]:order-2" : ""
           }`}
@@ -103,7 +104,7 @@ export function HomeCourseSection({
           {imagePanel}
         </div>
 
-        {course.comingSoon ? (
+        {comingSoonVisible ? (
           <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-neutral-900/70 px-6 text-center backdrop-blur-[2px]">
             <span className="font-heading text-4xl font-black uppercase tracking-[0.12em] text-white drop-shadow-lg sm:text-5xl md:text-6xl lg:text-7xl">
               Coming Soon

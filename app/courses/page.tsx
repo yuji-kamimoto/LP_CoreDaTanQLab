@@ -8,6 +8,9 @@ import {
   courseRoutingHints,
   courses,
   courseTheme,
+  getVisibleCourseRoutingHints,
+  showComingSoonUI,
+  visibleCourses,
 } from "@/lib/courses-data";
 import { siteName, trialApplicationFormUrl } from "@/lib/site-config";
 import {
@@ -17,11 +20,11 @@ import {
 
 export const metadata: Metadata = {
   title: "コース",
-  description: `${siteName}の3コース（0→1・スキル・探究）。好奇心に機会、熱意に応え、行動で核を育てます。`,
+  description: `${siteName}の2コース（0→1・探究）。好奇心に機会、熱意に応え、行動で核を育てます。`,
   alternates: { canonical: "/courses" },
   openGraph: {
     title: `コース | ${siteName}`,
-    description: `${siteName}の3コース（0→1・スキル・探究）。好奇心に機会、熱意に応え、行動で核を育てます。`,
+    description: `${siteName}の2コース（0→1・探究）。好奇心に機会、熱意に応え、行動で核を育てます。`,
     url: "/courses",
     type: "website",
   },
@@ -100,14 +103,14 @@ export default function CoursesDetailPage() {
                 COURSES
               </p>
               <h1 className="mt-5 font-heading text-3xl font-black leading-[1.18] tracking-tight text-foreground md:text-5xl lg:text-[3.5rem] lg:leading-[1.12]">
-                3つのコースで、
+                2つのコースで、
                 <br className="hidden md:block" />
                 お子さまの「好き」を育てます。
               </h1>
               <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted md:text-base">
                 {siteName}
-                では、お子さまの状態とご家庭のご希望に合わせて「0→1」「スキル」「探究」の
-                3コースをご用意しています。回数・時間・ねらいは異なりますが、根底にはどのコースも
+                では、お子さまの状態とご家庭のご希望に合わせて「0→1」「探究」の
+                2コースをご用意しています。回数・時間・ねらいは異なりますが、根底にはどのコースも
                 「好奇心に機会を、熱意に応え、行動で核をつくる」という共通の想いを置いています。
               </p>
             </ScrollReveal>
@@ -137,7 +140,7 @@ export default function CoursesDetailPage() {
               </p>
             </div>
             <ul className="mt-8 grid gap-4 sm:grid-cols-2">
-              {courseRoutingHints.map((hint, index) => (
+              {getVisibleCourseRoutingHints().map((hint, index) => (
                 <CourseRoutingCard key={hint.id} hint={hint} index={index} />
               ))}
             </ul>
@@ -158,19 +161,20 @@ export default function CoursesDetailPage() {
                 id="course-summary"
                 className="mt-2 font-heading text-2xl font-black tracking-tight text-foreground md:text-3xl"
               >
-                3つのコース、ひと目で比較。
+                2つのコース、ひと目で比較。
               </h2>
             </ScrollReveal>
 
             <div className="mt-8 grid gap-5 lg:grid-cols-3 lg:gap-6">
-              {courses.map((c, idx) => {
+              {visibleCourses.map((c, idx) => {
                 const th = courseTheme[c.key];
+                const comingSoonVisible = showComingSoonUI(c);
                 return (
                   <ScrollReveal key={c.id} delay={idx * 0.05}>
                     <article className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-foreground/10 bg-surface shadow-sm">
                       <div
                         className={`flex h-full flex-col ${
-                          c.comingSoon ? "grayscale" : ""
+                          c.comingSoon && comingSoonVisible ? "grayscale" : ""
                         }`}
                       >
                       <div
@@ -228,7 +232,7 @@ export default function CoursesDetailPage() {
                           </ul>
                         </div>
                         <div className="mt-auto pt-2">
-                          {c.comingSoon ? (
+                          {comingSoonVisible ? (
                             <span className="inline-flex items-center gap-2 text-sm font-bold text-muted md:text-base">
                               準備中です
                             </span>
@@ -245,7 +249,7 @@ export default function CoursesDetailPage() {
                       </div>
                       </div>
 
-                      {c.comingSoon ? (
+                      {comingSoonVisible ? (
                         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 bg-neutral-900/70 px-4 text-center backdrop-blur-[2px]">
                           <span className="font-heading text-3xl font-black uppercase tracking-[0.1em] text-white drop-shadow-lg md:text-4xl">
                             Coming Soon
@@ -275,8 +279,9 @@ export default function CoursesDetailPage() {
         </section>
 
         {/* 各コース詳細 */}
-        {courses.map((c, idx) => {
+        {visibleCourses.map((c, idx) => {
           const th = courseTheme[c.key];
+          const comingSoonVisible = showComingSoonUI(c);
 
           return (
             <section
@@ -297,7 +302,7 @@ export default function CoursesDetailPage() {
                       <p className="text-[0.65rem] font-bold tracking-[0.28em] opacity-90 md:text-xs">
                         COURSE 0{idx + 1} / {c.ageRange}
                       </p>
-                      {c.comingSoon ? (
+                      {comingSoonVisible ? (
                         <span className="inline-flex items-center rounded-full bg-white/20 px-3 py-1 text-[0.6rem] font-black tracking-[0.18em] md:text-[0.65rem]">
                           COMING SOON
                         </span>
@@ -319,7 +324,7 @@ export default function CoursesDetailPage() {
                 </ScrollReveal>
 
                 <div className="mt-10 space-y-12">
-                  {c.comingSoon ? (
+                  {comingSoonVisible ? (
                     <ScrollReveal>
                       <div className="rounded-3xl border-2 border-dashed border-foreground/15 bg-surface px-6 py-12 text-center md:px-10 md:py-16">
                         <p
