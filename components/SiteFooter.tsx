@@ -19,9 +19,6 @@ export function SiteFooter() {
           <p className="mt-4 max-w-md leading-relaxed text-footer-fg/75">
             {siteTagline}
           </p>
-          <p className="mt-5 text-xs leading-relaxed text-footer-fg/60">
-            名前に込めた想いに沿うよう、学びの機会と応答を大切にしつつ、親御さんが安心して相談できる場であることも重ねています。
-          </p>
         </div>
 
         <div className="md:pt-8">
