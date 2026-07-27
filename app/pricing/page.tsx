@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { courses, courseTheme } from "@/lib/courses-data";
+import { courseTheme, showComingSoonUI, visibleCourses } from "@/lib/courses-data";
 import { siteName, trialApplicationFormUrl } from "@/lib/site-config";
 import {
   contactInquiryCtaClasses,
@@ -14,11 +14,11 @@ import {
 
 export const metadata: Metadata = {
   title: "料金とスケジュール",
-  description: `${siteName}の0→1・スキル・探究コースの月謝と支払い・休講・割引のご案内です。`,
+  description: `${siteName}の0→1・探究コースの月謝と支払い・休講・割引のご案内です。`,
   alternates: { canonical: "/pricing" },
   openGraph: {
     title: `料金とスケジュール | ${siteName}`,
-    description: `${siteName}の0→1・スキル・探究コースの月謝と支払い・休講・割引のご案内です。`,
+    description: `${siteName}の0→1・探究コースの月謝と支払い・休講・割引のご案内です。`,
     url: "/pricing",
     type: "website",
   },
@@ -38,7 +38,7 @@ const policyBlocks: Array<{
     eyebrow: "PAYMENT",
     title: "支払い方法",
     description:
-      "毎月の月謝は、口座振替またはクレジットカード決済を予定しています。体験授業は当日現金または決済リンクでのお支払いに対応します。",
+      "毎月の月謝は、口座振替またはクレジットカード決済を予定しています。",
   },
   {
     eyebrow: "CALENDAR",
@@ -165,7 +165,7 @@ export default function PricingPage() {
                 コース別・月謝
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted md:text-base">
-                3コースとも月額制です。詳しいレッスン内容や育つ力は
+                2コースとも月額制です。詳しいレッスン内容や育つ力は
                 <Link
                   href="/courses"
                   className="font-semibold text-accent underline-offset-2 hover:underline"
@@ -177,8 +177,9 @@ export default function PricingPage() {
             </ScrollReveal>
 
             <div className="mt-8 grid gap-5 lg:grid-cols-3 lg:gap-6">
-              {courses.map((c, idx) => {
+              {visibleCourses.map((c, idx) => {
                 const th = courseTheme[c.key];
+                const comingSoonVisible = showComingSoonUI(c);
                 return (
                   <ScrollReveal key={c.id} delay={idx * 0.05}>
                     <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-foreground/10 bg-surface shadow-sm">
@@ -187,7 +188,7 @@ export default function PricingPage() {
                           <p className="text-[0.65rem] font-bold tracking-[0.22em] opacity-90 md:text-xs">
                             {c.ageRange}
                           </p>
-                          {c.comingSoon ? (
+                          {comingSoonVisible ? (
                             <span className="inline-flex items-center rounded-full bg-white/20 px-3 py-1 text-[0.6rem] font-black tracking-[0.18em] md:text-[0.65rem]">
                               COMING SOON
                             </span>
@@ -196,7 +197,7 @@ export default function PricingPage() {
                         <h3 className="mt-2 font-heading text-xl font-black tracking-tight md:text-2xl">
                           {c.name}
                         </h3>
-                        {c.comingSoon ? (
+                        {comingSoonVisible ? (
                           <p className="mt-3 font-heading text-2xl font-black md:text-3xl">
                             準備中
                           </p>
@@ -246,7 +247,7 @@ export default function PricingPage() {
                           </p>
                         </div>
                         <div className="mt-auto pt-3">
-                          {c.comingSoon ? (
+                          {comingSoonVisible ? (
                             <span className="inline-flex items-center gap-2 text-sm font-bold text-muted md:text-base">
                               準備中です
                             </span>

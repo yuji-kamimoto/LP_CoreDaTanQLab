@@ -72,6 +72,10 @@ export type CourseDefinition = {
   themeNote: string;
   /** 準備中（Coming Soon）として案内するコース */
   comingSoon?: boolean;
+  /** comingSoon でも「準備中」表示を出さない（一時非表示用） */
+  hideComingSoonUI?: boolean;
+  /** サイト上でコース自体を非表示にする（データは保持） */
+  hidden?: boolean;
   /** 上位プラン（料金・対象が異なるティア） */
   professionalPlan?: CourseProfessionalPlan;
   targetProfiles: string[];
@@ -83,6 +87,13 @@ export type CourseDefinition = {
   };
   parentNote?: string;
 };
+
+/** 「準備中」バッジ・オーバーレイなどの UI を表示するか */
+export function showComingSoonUI(
+  course: Pick<CourseDefinition, "comingSoon" | "hideComingSoonUI">,
+): boolean {
+  return Boolean(course.comingSoon && !course.hideComingSoonUI);
+}
 
 export const courses: CourseDefinition[] = [
   {
@@ -148,6 +159,8 @@ export const courses: CourseDefinition[] = [
     monthlyPrice: "19,800円（税込）",
     themeNote: "月ごとに異なるテーマを扱います",
     comingSoon: true,
+    hideComingSoonUI: true,
+    hidden: true,
     targetProfiles: [
       "勉強はできるが目的がない／自信がない → 探究コース or スキルコース",
       "保護者の不安・期待（学力、非認知、進路、居場所、将来の武器） → スキルコース or 探究コース",
@@ -258,6 +271,23 @@ export const courseRoutingHints: CourseRoutingHint[] = [
     recommendations: [{ key: "inquiry", label: "探究コース" }],
   },
 ];
+
+/** サイトに表示するコース一覧 */
+export const visibleCourses = courses.filter((course) => !course.hidden);
+
+const visibleCourseKeys = new Set(visibleCourses.map((course) => course.key));
+
+/** 非表示コースを除いたおすすめコース案内 */
+export function getVisibleCourseRoutingHints(): CourseRoutingHint[] {
+  return courseRoutingHints
+    .map((hint) => ({
+      ...hint,
+      recommendations: hint.recommendations.filter((rec) =>
+        visibleCourseKeys.has(rec.key),
+      ),
+    }))
+    .filter((hint) => hint.recommendations.length > 0);
+}
 
 /** 探究コース：指導方針（参考：チーム運営のベストプラクティス） */
 export const inquiryGuidingPrinciples = [

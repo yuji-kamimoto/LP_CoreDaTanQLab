@@ -10,7 +10,7 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 import { SectionDetailLink } from "@/components/SectionDetailLink";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { courses } from "@/lib/courses-data";
+import { visibleCourses } from "@/lib/courses-data";
 import {
   colocatedFreeSchool,
   contact,
@@ -114,27 +114,28 @@ export default async function Home() {
                 コースの紹介
               </h2>
               <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-muted md:text-lg">
-                コースは「0→1」「スキル」「探究」の3つ。子どもたちの状況に合わせてお選びいただけます。
+                コースは「0→1」「探究」の2つ。子どもたちの状況に合わせてお選びいただけます。
               </p>
             </div>
           </ScrollReveal>
 
           <div className="mt-10 space-y-8">
-            <HomeCourseSection
-              course={courses[0]}
-              imageSrc="/0-1_Course_Image.jpg"
-              imagePosition="right"
-            />
-            <HomeCourseSection
-              course={courses[1]}
-              imageSrc="/Skill_Course_Image.jpg"
-              imagePosition="left"
-            />
-            <HomeCourseSection
-              course={courses[2]}
-              imageSrc="/TanQ_Course_Image.jpg"
-              imagePosition="right"
-            />
+            {visibleCourses.map((course, idx) => {
+              const homeCourseImages = {
+                zeroOne: "/0-1_Course_Image.jpg",
+                skill: "/Skill_Course_Image.jpg",
+                inquiry: "/TanQ_Course_Image.jpg",
+              } as const;
+
+              return (
+                <HomeCourseSection
+                  key={course.id}
+                  course={course}
+                  imageSrc={homeCourseImages[course.key]}
+                  imagePosition={idx % 2 === 0 ? "right" : "left"}
+                />
+              );
+            })}
           </div>
 
           <ScrollReveal delay={0.1}>

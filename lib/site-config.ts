@@ -48,7 +48,7 @@ export const siteKeywords = [
 ] as const;
 
 export const siteTagline =
-  "【好奇心】を【行動】へ、それがいつか君の【核】になる";
+  "【好奇心】を【行動】へ、それが君の【核】になる";
 
 /**
  * CoreDa! の由来（サイト説明の共通文脈）
