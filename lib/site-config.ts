@@ -80,9 +80,9 @@ export const colocatedFreeSchool = {
   websiteUrl: "https://manabinomori-gakuen.com/",
 } as const;
 
-/** 無料体験授業のお申し込み（Google フォーム） */
+/** 無料体験授業・イベントのお申し込み案内（Google Sites） */
 export const trialApplicationFormUrl =
-  "https://docs.google.com/forms/d/e/1FAIpQLSdRHBFrQiGUg7jTBedF8BDabRq5f0N31OvyLt4zIw6J-1LAZw/viewform?usp=publish-editor";
+  "https://sites.google.com/view/school-coreda-event/%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E7%94%B3%E3%81%97%E8%BE%BC%E3%81%BF?authuser=0";
 
 export const footerInfo = {
   /** フッター「営業時間」表示用（平日・土日で改行） */
