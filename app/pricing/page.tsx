@@ -38,7 +38,7 @@ const policyBlocks: Array<{
     eyebrow: "PAYMENT",
     title: "支払い方法",
     description:
-      "毎月の月謝は、口座振替またはクレジットカード決済を予定しています。体験授業は当日現金または決済リンクでのお支払いに対応します。",
+      "毎月の月謝は、口座振替またはクレジットカード決済を予定しています。",
   },
   {
     eyebrow: "CALENDAR",
