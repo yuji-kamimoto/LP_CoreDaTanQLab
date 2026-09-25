@@ -61,7 +61,7 @@ export const coreDaNamingJa =
 export const siteMetaDescription = `${siteTagline} ${coreDaNamingJa}`;
 
 /** Hero 中央のキラーフレーズのみ表示 */
-export const heroPhrase = "好き✖️できる で突き抜けろ！";
+export const heroPhrase = "子どもたちの才能と情熱が出会う場所";
 
 export const contact = {
   /** 表示用 */
