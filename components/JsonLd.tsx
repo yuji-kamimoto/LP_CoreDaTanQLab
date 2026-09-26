@@ -1,6 +1,6 @@
 import {
+  campuses,
   colocatedFreeSchool,
-  contact,
   footerInfo,
   siteAlternateNames,
   siteName,
@@ -41,12 +41,24 @@ export function HomeJsonLd() {
     slogan: siteTagline,
     address: {
       "@type": "PostalAddress",
-      streetAddress: "吾妻3丁目-11-5",
+      streetAddress: campuses[0].streetAddress,
       addressLocality: "つくば市",
       addressRegion: "茨城県",
-      postalCode: "305-0031",
+      postalCode: campuses[0].postalCode,
       addressCountry: "JP",
     },
+    location: campuses.map((campus) => ({
+      "@type": "Place",
+      name: campus.name,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: campus.streetAddress,
+        addressLocality: "つくば市",
+        addressRegion: "茨城県",
+        postalCode: campus.postalCode,
+        addressCountry: "JP",
+      },
+    })),
     areaServed: {
       "@type": "AdministrativeArea",
       name: "茨城県つくば市",

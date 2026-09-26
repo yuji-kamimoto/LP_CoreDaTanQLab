@@ -7,7 +7,10 @@ type HeroSectionProps = {
 };
 
 const preferredBreakPhrases: Record<string, [string, string]> = {
-  "好き✖️できる で突き抜けろ！": ["好き✖️できる で", "突き抜けろ！"],
+  "子どもたちの才能と情熱が出会う場所": [
+    "子どもたちの才能と情熱が",
+    "出会う場所",
+  ],
 };
 
 function renderWithPreferredBreak(line: string) {

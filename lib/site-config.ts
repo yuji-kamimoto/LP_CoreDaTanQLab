@@ -41,6 +41,7 @@ export const siteKeywords = [
   "つくば 学習塾",
   "茨城 探究",
   "つくば市 吾妻 塾",
+  "つくば市 春日 塾",
   "プログラミング教室",
   "小学生 中学生 高校生",
   "TSUKUBA 学びの杜学園",
@@ -61,24 +62,53 @@ export const coreDaNamingJa =
 export const siteMetaDescription = `${siteTagline} ${coreDaNamingJa}`;
 
 /** Hero 中央のキラーフレーズのみ表示 */
-export const heroPhrase = "好き✖️できる で突き抜けろ！";
+export const heroPhrase = "子どもたちの才能と情熱が出会う場所";
 
-export const contact = {
-  /** 表示用 */
-  address: "〒305-0031 茨城県つくば市吾妻3丁目-11-5",
-  /** Google マップの埋め込み用 URL（共有 → 地図を埋め込む で取得したものを推奨） */
-  mapsEmbedUrl:
-    process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL?.trim() ||
+function googleMapsEmbedUrl(query: string) {
+  return (
     "https://maps.google.com/maps?q=" +
-    encodeURIComponent("茨城県つくば市吾妻3丁目11番5号") +
-    "&hl=ja&z=16&output=embed",
-};
+    encodeURIComponent(query) +
+    "&hl=ja&z=16&output=embed"
+  );
+}
 
-/** 同一施設で活動している「学びの杜学園」（住所・アクセスの案内用） */
+/** 同一施設で活動している「学びの杜学園」（吾妻校舎の案内用） */
 export const colocatedFreeSchool = {
   name: "TSUKUBA 学びの杜学園",
   websiteUrl: "https://manabinomori-gakuen.com/",
 } as const;
+
+export type Campus = {
+  id: "azuma" | "kasuga";
+  name: string;
+  postalCode: string;
+  streetAddress: string;
+  displayAddress: string;
+  mapsEmbedUrl: string;
+  colocatedFreeSchool?: typeof colocatedFreeSchool;
+};
+
+export const campuses: Campus[] = [
+  {
+    id: "azuma",
+    name: "吾妻校舎",
+    postalCode: "305-0031",
+    streetAddress: "吾妻3丁目-11-5",
+    displayAddress: "〒305-0031 茨城県つくば市吾妻3丁目-11-5",
+    mapsEmbedUrl:
+      process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL?.trim() ||
+      googleMapsEmbedUrl("茨城県つくば市吾妻3丁目11番5号"),
+    colocatedFreeSchool,
+  },
+  {
+    id: "kasuga",
+    name: "春日校舎",
+    postalCode: "305-0821",
+    streetAddress: "春日4丁目1-15 103",
+    displayAddress: "〒305-0821 茨城県つくば市春日4丁目1-15 103",
+    mapsEmbedUrl: googleMapsEmbedUrl("茨城県つくば市春日4丁目1-15"),
+  },
+];
 
 /** 無料体験授業・イベントのお申し込み案内（Google Sites） */
 export const trialApplicationFormUrl =
