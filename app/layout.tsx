@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     type: "website",
     siteName,
     title: defaultTitle,
-    description: `${siteTagline}｜${siteName}は、茨城県つくば市吾妻にある、好奇心を行動へつなげる探究学習教室です。`,
+    description: `${siteTagline}｜${siteName}は、茨城県つくば市の吾妻校舎・春日校舎で、好奇心を行動へつなげる探究学習教室です。`,
     url: siteUrl,
     locale: "ja_JP",
     images: [

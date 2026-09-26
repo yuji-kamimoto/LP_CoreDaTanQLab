@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { BrandLogoText } from "@/components/BrandLogoText";
 import {
-  contact,
+  campuses,
   footerInfo,
   siteName,
   siteTagline,
@@ -28,7 +28,16 @@ export function SiteFooter() {
           <dl className="mt-4 space-y-3 text-sm leading-relaxed">
             <div>
               <dt className="text-footer-fg/55">教室所在地</dt>
-              <dd className="mt-1 text-footer-fg">{contact.address}</dd>
+              <dd className="mt-1 space-y-3 text-footer-fg">
+                {campuses.map((campus) => (
+                  <p key={campus.id}>
+                    <span className="block text-xs font-semibold tracking-wide text-footer-fg/70">
+                      {campus.name}
+                    </span>
+                    {campus.displayAddress}
+                  </p>
+                ))}
+              </dd>
             </div>
             <div>
               <dt className="text-footer-fg/55">営業時間</dt>

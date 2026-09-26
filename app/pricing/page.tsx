@@ -38,7 +38,7 @@ const policyBlocks: Array<{
     eyebrow: "PAYMENT",
     title: "支払い方法",
     description:
-      "毎月の月謝は、口座振替またはクレジットカード決済を予定しています。",
+      "毎月の月謝は、会費ペイを利用した口座振替のみです。",
   },
   {
     eyebrow: "CALENDAR",

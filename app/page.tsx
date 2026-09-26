@@ -12,8 +12,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { visibleCourses } from "@/lib/courses-data";
 import {
-  colocatedFreeSchool,
-  contact,
+  campuses,
   coreDaNamingJa,
   heroPhrase,
   siteName,
@@ -159,38 +158,49 @@ export default async function Home() {
               <h2 className="font-heading text-3xl font-black tracking-tight text-foreground md:text-4xl">
                 アクセス
               </h2>
-              <p className="mx-auto mt-4 max-w-xl text-muted">
-                {contact.address}
-              </p>
-              <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-muted md:text-base">
-                {siteName}は、
-                <a
-                  href={colocatedFreeSchool.websiteUrl}
-                  className="font-semibold text-accent underline-offset-2 hover:underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {colocatedFreeSchool.name}
-                </a>
-                と
-                <strong className="font-medium text-foreground">
-                  同一の施設で開講しています。
-                </strong>
+              <p className="mx-auto mt-4 max-w-2xl text-muted">
+                10月より、吾妻校舎と春日校舎の2拠点で開講しています。
               </p>
             </div>
           </ScrollReveal>
-          <ScrollReveal delay={0.1}>
-            <div className="mt-10 overflow-hidden rounded-2xl border-2 border-accent/25 bg-surface shadow-lg shadow-accent/5">
-              <iframe
-                title="Google 地図"
-                src={contact.mapsEmbedUrl}
-                className="aspect-[16/10] min-h-[280px] w-full border-0 md:aspect-[21/9] md:min-h-[320px]"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                allowFullScreen
-              />
-            </div>
-          </ScrollReveal>
+          <div className="mt-10 grid gap-6">
+            {campuses.map((campus, index) => (
+              <ScrollReveal key={campus.id} delay={0.08 + index * 0.06}>
+                <article className="overflow-hidden rounded-2xl border-2 border-accent/25 bg-surface shadow-lg shadow-accent/5">
+                  <div className="px-5 py-5 md:px-6">
+                    <h3 className="font-heading text-xl font-black tracking-tight text-foreground">
+                      {campus.name}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted md:text-base">
+                      {campus.displayAddress}
+                    </p>
+                    {campus.colocatedFreeSchool ? (
+                      <p className="mt-2 text-sm leading-relaxed text-muted">
+                        {siteName}は、
+                        <a
+                          href={campus.colocatedFreeSchool.websiteUrl}
+                          className="font-semibold text-accent underline-offset-2 hover:underline"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {campus.colocatedFreeSchool.name}
+                        </a>
+                        と同一の施設で開講しています。
+                      </p>
+                    ) : null}
+                  </div>
+                  <iframe
+                    title={`${campus.name}のGoogle 地図`}
+                    src={campus.mapsEmbedUrl}
+                    className="aspect-[16/10] min-h-[220px] w-full border-0"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    allowFullScreen
+                  />
+                </article>
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
       </section>
 
